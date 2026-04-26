@@ -1,7 +1,8 @@
 import React from "react";
+import { Navbar } from "@repo/ui/navbar";
 
 export default function LandingPage() {
-  const styles = {
+  const styles: Record<string, React.CSSProperties> = {
     container: { minHeight: "100vh", fontFamily: "Arial, sans-serif", backgroundColor: "#f5f5f5", color: "#333" },
     nav: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "15px 40px", backgroundColor: "#fff", boxShadow: "0 2px 5px rgba(0,0,0,0.1)" },
     navLinks: { display: "flex", gap: "20px" },
@@ -15,17 +16,9 @@ export default function LandingPage() {
 
   return (
     <div style={styles.container}>
-      {/* Navbar */}
-      <nav style={styles.nav}>
-        <h2>EmpManage</h2>
-        <div style={styles.navLinks}>
-          <a href="#features">Features</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-        </div>
-        <button style={styles.button}>Get Started</button>
-      </nav>
-
+        <div>
+        <Navbar />
+      </div>
       {/* Hero */}
       <section style={styles.hero}>
         <h1>Employee Management System</h1>

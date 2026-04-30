@@ -20,12 +20,7 @@ const scheduleItems = [
 export default function LandingPage() {
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#0a0a0a", color: "#e8e8e8", minHeight: "100vh", overflowX: "hidden" }}>
-      
-      {/* ── NAV ── */}
-     
-
-      {/* ── HERO ── */}
-      <section style={{ position: "relative", textAlign: "center", padding: "72px 24px 0", overflow: "hidden" }}>
+          <section style={{ position: "relative", textAlign: "center", padding: "72px 24px 0", overflow: "hidden" }}>
         
         {/* Grid background */}
         <div style={{
@@ -34,14 +29,11 @@ export default function LandingPage() {
           backgroundSize: "52px 52px"
         }} />
         
-        {/* Orange glow */}
         <div style={{
           position: "absolute", top: "38%", left: "50%", transform: "translate(-50%,-50%)",
           width: 600, height: 400, pointerEvents: "none",
           background: "radial-gradient(ellipse, rgba(249,115,22,0.2) 0%, transparent 70%)"
         }} />
-
-        {/* Pill badge */}
 
         {/* Headline */}
         <h1 style={{
@@ -52,8 +44,6 @@ export default function LandingPage() {
         }}>
           Efficiency Management
         </h1>
-
-        {/* Subtitle */}
         <p style={{
           position: "relative", zIndex: 1,
           maxWidth: 500, margin: "0 auto 36px", color: "#888",
@@ -62,7 +52,6 @@ export default function LandingPage() {
           Optimize Operations, Elevate Performance. Unlock Your Team's Full Potential with Seamless Workflow Solutions.
         </p>
 
-        {/* CTAs */}
         <div style={{ display: "flex", gap: 16, justifyContent: "center", position: "relative", zIndex: 1, marginBottom: 56 }}>
           <button style={{
             padding: "14px 32px", background: "#F97316", border: "none", borderRadius: 50,
@@ -79,15 +68,15 @@ export default function LandingPage() {
             Book Your Demo
           </button>
         </div>
-
-        {/* ── DASHBOARD MOCKUP ── */}
-        <div style={{ position: "relative", zIndex: 2, maxWidth: 860, margin: "0 auto" }}>
+        <div style={{ position: "relative", zIndex: 2, maxWidth: 860,minHeight:"1305px", margin: "0 auto" }}>
           <div style={{
+            height:"450px",
             background: "#141414",
             border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: "16px 16px 0 0",
+            borderRadius: "20px 20px 20px 20px",
             overflow: "hidden",
-            boxShadow: "0 -8px 60px rgba(249,115,22,0.12), inset 0 1px 0 rgba(255,255,255,0.07)"
+            boxShadow: "0 -8px 60px rgba(249,115,22,0.12), inset 0 1px 0 rgba(255,255,255,0.07)",
+            
           }}>
 
             {/* Top bar */}

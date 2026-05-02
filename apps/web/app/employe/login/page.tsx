@@ -1,11 +1,14 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginAsEmployee() {
   const [showPassword, setShowPassword] = useState(false);
   const [employeeId, setEmployeeId] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -13,6 +16,9 @@ export default function LoginAsEmployee() {
     setTimeout(() => setLoading(false), 2000);
   };
 
+  function employeedashboard() {
+    router.push("/employe/dashboard");
+  }
   return (
     <div style={{ display: "flex", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", overflow: "hidden" }}>
       <style>{`
@@ -247,7 +253,7 @@ export default function LoginAsEmployee() {
             </div>
 
             {/* Submit */}
-            <button type="submit" className="submit-btn" disabled={loading}>
+            <button onClick={employeedashboard} type="submit" className="submit-btn" disabled={loading}>
               {loading ? (
                 <>
                   <div className="spinner" />

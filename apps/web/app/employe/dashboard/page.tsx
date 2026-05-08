@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import Sidebar from "../../component/sidebar";
+import { dummyEmployeeDashboardData } from "../../assets/assets";
 
 
 export default function EmployeeDashboard() {
-  const [loading, setloading] = useState(true);
-  const [data, setdata] = useState(null);
+  const [ data, setdata] = useState<any>(null);
+
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -14,16 +15,14 @@ export default function EmployeeDashboard() {
     };
   }, []);
 
+  useEffect(() =>{
+    setdata(dummyEmployeeDashboardData)
+    
+  },[])
 
-  if(loading) {
-    return(
-      <p>Loading..</p>
-    )
-  }
 
-  if(!data){
-    return (<p>Data not found </p>)
-  }
+
+
 
   return (
     <div style={{ height: "100vh", display: "flex" }}>

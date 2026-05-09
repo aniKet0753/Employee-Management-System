@@ -5,7 +5,7 @@ import { dummyEmployeeDashboardData } from "../../assets/assets";
 
 
 export default function EmployeeDashboard() {
-  const [ data, setdata] = useState<any>(null);
+  const [ data, setdata] = useState<any>(null);//added no type for now, can be changed later when we have the actual data structure
 
 
   useEffect(() => {

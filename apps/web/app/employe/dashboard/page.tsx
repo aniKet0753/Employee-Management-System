@@ -6,6 +6,7 @@ import { dummyEmployeeDashboardData } from "../../assets/assets";
 
 export default function EmployeeDashboard() {
   const [ data, setdata] = useState<any>(null);//added no type for now, can be changed later when we have the actual data structure
+  const [loading , setloading] = useState(true);
 
 
   useEffect(() => {
@@ -17,17 +18,14 @@ export default function EmployeeDashboard() {
 
   useEffect(() =>{
     setdata(dummyEmployeeDashboardData)
-    
+    setloading(false);
   },[])
-
-
-
-
 
   return (
     <div style={{ height: "100vh", display: "flex" }}>
       <Sidebar />
-      <div style={{ flex: 1 }} />
+      <div />
+      {loading && <p  style={{fontSize:"50px" , fontFamily:"Roboto",color:"white"}}>Loading....</p>}
     </div>
   );
 }

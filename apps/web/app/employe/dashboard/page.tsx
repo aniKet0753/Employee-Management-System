@@ -20,12 +20,15 @@ export default function EmployeeDashboard() {
     setdata(dummyEmployeeDashboardData)
     setloading(false);
   },[])
+    
 
   return (
     <div style={{ height: "100vh", display: "flex" }}>
       <Sidebar />
       <div />
+      <div style={{color:"white" , marginLeft:"20px" , marginTop:"20px", fontFamily:"Roboto"}}>Admin Dashboard</div>
       {loading && <p  style={{fontSize:"50px" , fontFamily:"Roboto",color:"white"}}>Loading....</p>}
     </div>
+    
   );
 }

@@ -4,7 +4,7 @@ import Sidebar from "../../component/sidebar";
 import { dummyEmployeeDashboardData } from "../../assets/assets";
 
 
-export default function EmployeeDashboard() {
+export default function AdminDashboard() {
   const [ data, setdata] = useState<any>(null);//added no type for now, can be changed later when we have the actual data structure
   const [loading , setloading] = useState(true);
 
@@ -26,7 +26,7 @@ export default function EmployeeDashboard() {
     <div style={{ height: "100vh", display: "flex" }}>
       <Sidebar />
       <div />
-      <div style={{color:"white" , marginLeft:"20px" , marginTop:"20px", fontFamily:"Roboto"}}>Employee Dashboard</div>
+      <div style={{color:"white" , marginLeft:"20px" , marginTop:"20px", fontFamily:"Roboto"}}>Admin Dashboard</div>
       {loading && <p  style={{fontSize:"50px" , fontFamily:"Roboto",color:"white"}}>Loading....</p>}
     </div>
     

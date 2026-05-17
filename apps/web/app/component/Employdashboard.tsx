@@ -1,14 +1,15 @@
 "use client";
 import React from "react";
 import { Calendar1Icon, DollarSignIcon, FileTextIcon} from 'lucide-react';
+import { dummyEmployeeDashboardData } from "../assets/assets";
 
-type EmployeeDashboardProps = {
+type dummyEmployeeDashboardData = {
   data: any;
 };
 
-const EmployeeDashboard = ({data}: EmployeeDashboardProps) => {
+export default function EmployeeDashboard ({data}: dummyEmployeeDashboardData) {
+  console.log("Data in EmployeeDashboard component:", data);
   const emp = data.employee;
-console.log(data)
   const card = [
     {
       icon: <Calendar1Icon  color="white"/>,
@@ -29,6 +30,12 @@ console.log(data)
     }
   ]
   return (
-    <div> Employee dashboard </div>
+    <div>
+    <div style={{color:"white" , marginLeft:"20px" , marginTop:"20px", fontFamily:"Roboto"}}>Employee Dashboard</div>
+    <div style={{paddingLeft: "20px",color: "white", fontFamily: "-moz-initial", }}>
+      <h2 style={{ color: "white",  fontSize: "30px", marginBottom:"6px"}}> Welcome {emp?.firstName} {emp?.lastName}</h2>
+      <p style={{  color: "white", fontSize: "18px", marginTop:"0px"}}>{emp?.position} {emp?.department || " NO DEPARTMENT "}</p>
+    </div>
+    </div>
+
   )}
-  export default EmployeeDashboard;

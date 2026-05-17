@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../../component/sidebar";
 import { dummyEmployeeDashboardData } from "../../assets/assets";
+import EmployeeDashboardComponent from "../../component/Employdashboard";
 
 export default function EmployeeDashboard() {
   const [ data, setdata] = useState<any>(null);//added no type for now, can be changed later when we have the actual data structure
@@ -23,10 +24,13 @@ export default function EmployeeDashboard() {
   return (
     <div style={{ height: "100vh", display: "flex" }}>
       <Sidebar />
-      <div />
-      <div style={{color:"white" , marginLeft:"20px" , marginTop:"20px", fontFamily:"Roboto"}}>Employee Dashboard</div>
-      {loading && <p  style={{fontSize:"50px" , fontFamily:"Roboto",color:"white"}}>Loading....</p>}
-      
+      {loading ? (
+  <p style={{fontSize:"50px", fontFamily:"Roboto", color:"white"}}>
+    Loading....
+  </p>
+) : (
+  <EmployeeDashboardComponent data={data} />
+)}
     </div>
     
   );

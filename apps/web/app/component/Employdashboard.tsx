@@ -31,10 +31,19 @@ export default function EmployeeDashboard ({data}: dummyEmployeeDashboardData) {
   ]
   return (
     <div>
-    <div style={{color:"white" , marginLeft:"20px" , marginTop:"20px", fontFamily:"Roboto"}}>Employee Dashboard</div>
     <div style={{paddingLeft: "20px",color: "white", fontFamily: "-moz-initial", }}>
       <h2 style={{ color: "white",  fontSize: "30px", marginBottom:"6px"}}> Welcome {emp?.firstName} {emp?.lastName}</h2>
       <p style={{  color: "white", fontSize: "18px", marginTop:"0px"}}>{emp?.position} {emp?.department || " NO DEPARTMENT "}</p>
+      <div> 
+        {card.map((item) => (
+          <div key={item.title} style={{display: "inline-block",gap:"", backgroundColor: "#2c2c2c", borderRadius: "8px", padding: "20px", marginRight: "20px", width: "200px"}}>
+            <div style={{display: "flex", alignItems: "center", marginBottom: "10px"}}>{item.icon}</div>
+            <h3 style={{ color: "white", fontSize: "24px", margin: "0" }}>{item.value}</h3>
+            <p style={{ color: "gray", fontSize: "14px", margin: "0" }}>{item.title}</p>
+            <p style={{ color: "lightgray", fontSize: "12px", margin: "0" }}>{item.subtitle}</p>
+          </div>
+        ))}
+      </div>
     </div>
     </div>
 

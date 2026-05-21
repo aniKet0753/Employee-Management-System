@@ -2,6 +2,7 @@
 import React from "react";
 import { Calendar1Icon, DollarSignIcon, FileTextIcon} from 'lucide-react';
 import { dummyEmployeeDashboardData } from "../assets/assets";
+import navigation from "next/navigation";
 
 type dummyEmployeeDashboardData = {
   data: any;
@@ -39,7 +40,7 @@ export default function EmployeeDashboard ({data}: dummyEmployeeDashboardData) {
       <p style={{  color: "white", fontSize: "18px", marginTop:"0px"}}>{emp?.position} {emp?.department || " NO DEPARTMENT "}</p>
       <div style={{display:"flex", gap:"90px"}}> 
         {card.map((item) => (
-          <div key={item.title} onClick={() => (item.path)} style={{cursor:"pointer",marginLeft:"30px",display: "inline-block",gap:"20px", backgroundColor: "rgb(44, 44, 44)", borderRadius: "8px", padding: "20px", marginRight: "20px", width: "200px"}}>
+          <div key={item.title} onClick={() => {item.path}} style={{cursor:"pointer",marginLeft:"30px",display: "inline-block",gap:"20px", backgroundColor: "rgb(44, 44, 44)", borderRadius: "8px", padding: "20px", marginRight: "20px", width: "200px"}}>
             <div style={{display: "flex", alignItems: "center", marginBottom: "7px" }}>{item.icon}
             <h3 style={{ color: "white", fontSize: "24px", margin: "0", marginLeft: "5px" }}>{item.value}</h3></div>
             <p style={{ color: "gray", fontSize: "14px", margin: "0", fontFamily:"inherit" }}>{item.title}</p>

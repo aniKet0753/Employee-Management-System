@@ -50,5 +50,4 @@ export default function EmployeeDashboard ({data}: dummyEmployeeDashboardData) {
       </div>
     </div>
     </div>
-
   )}

@@ -20,7 +20,6 @@ export default function EmployeeDashboard() {
     setloading(false);
   },[])
 
-
   return (
     <div style={{ height: "100vh", display: "flex" }}>
       <Sidebar />

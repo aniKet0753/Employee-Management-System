@@ -25,7 +25,7 @@ export default function EmployeeDashboard() {
       <Sidebar />
       {loading ? (
   <p style={{fontSize:"50px", fontFamily:"Roboto", color:"white"}}>
-    Loading....
+    Loading.... 
   </p>
 ) : (
   <EmployeeDashboardComponent data={data} />

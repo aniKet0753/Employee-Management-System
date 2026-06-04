@@ -53,7 +53,7 @@ export default function EmployeeDashboard ({data}: dummyEmployeeDashboardData) {
         ))}
       </div>
     <div style={{marginLeft: "20px", display: "flex",gap: "20px", marginTop: "28px", }}>
-  <button onClick={() => router.push("/attendance")} style={{ background: "linear-gradient(90deg, #5b4bff, #6f63ff)", color: "white", border: "none", padding: "14px 28px", borderRadius: "12px", fontSize: "16px",fontWeight: "600", cursor: "pointer", boxShadow: "0 6px 16px rgba(91,75,255,0.35)",transition: "0.3s ease", }}
+  <button onClick={() => router.push("/employe/attendance")} style={{ background: "linear-gradient(90deg, #5b4bff, #6f63ff)", color: "white", border: "none", padding: "14px 28px", borderRadius: "12px", fontSize: "16px",fontWeight: "600", cursor: "pointer", boxShadow: "0 6px 16px rgba(91,75,255,0.35)",transition: "0.3s ease", }}
     onMouseEnter={(e) => {
       e.currentTarget.style.transform = "translateY(-2px)";
       e.currentTarget.style.boxShadow =
@@ -67,7 +67,7 @@ export default function EmployeeDashboard ({data}: dummyEmployeeDashboardData) {
     Mark Attendance →
   </button>
 
-  <button onClick={() => router.push("/leaves")}
+  <button onClick={() => router.push("/employe/leaves")}
     style={{background: "transparent",color: "#d1d5db",border: "1px solid rgba(255,255,255,0.15)",padding: "14px 28px", borderRadius: "12px", fontSize: "16px",fontWeight: "500", cursor: "pointer",transition: "0.3s ease"}}
     onMouseEnter={(e) => {
       e.currentTarget.style.background =
@@ -79,10 +79,9 @@ export default function EmployeeDashboard ({data}: dummyEmployeeDashboardData) {
       e.currentTarget.style.background = "transparent";
       e.currentTarget.style.border =
         "1px solid rgba(255,255,255,0.15)";
-    }}
-  > Apply for Leave
+    }}> Apply for Leave
   </button>
-</div>
+   </div>
     </div>
     </div>
   )}

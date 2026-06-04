@@ -29,7 +29,7 @@ const navItems = [
   {
     key: "leave",
     label: "Leave",
-    href: "/employe/leave",
+    href: "/employe/leaves",
     icon: (
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
@@ -41,7 +41,7 @@ const navItems = [
   {
     key: "payslips",
     label: "Payslips",
-    href: "/employe/payslips",
+    href: "/employe/payslip",
     icon: (
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <line x1="12" y1="1" x2="12" y2="23" />
@@ -52,7 +52,7 @@ const navItems = [
   {
     key: "settings",
     label: "Settings",
-    href: "/employe/settings",
+    href: "/employe/setting",
     icon: (
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="3" />

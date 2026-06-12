@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import Sidebar from "../../component/sidebar";
+import AdminSidebar from "../../component/AdminSidebar";
 import { dummyEmployeeDashboardData } from "../../assets/assets";
 
 
@@ -24,7 +24,7 @@ export default function AdminDashboard() {
 
   return (
     <div style={{ height: "100vh", display: "flex" }}>
-      <Sidebar />
+      <AdminSidebar />
       <div />
       <div style={{color:"white" , marginLeft:"20px" , marginTop:"20px", fontFamily:"Roboto"}}>Admin Dashboard</div>
       {loading && <p  style={{fontSize:"50px" , fontFamily:"Roboto",color:"white"}}>Loading....</p>}

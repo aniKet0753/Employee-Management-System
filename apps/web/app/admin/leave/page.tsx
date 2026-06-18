@@ -1,11 +1,12 @@
 "use client";
 import AdminSidebar from "../../component/AdminSidebar";
 import Sidebar from "../../component/sidebar";
-import AdminEmployee from "../../pages/Employees";
+import AdminLeavePage from "../../pages/AdminLeave";
 import { useEffect, useState } from "react";
 
 export default function AdminEmployeePage() {
   const [loading , setloading] = useState(true);
+
 
   // useEffect(() => {
   //   document.body.style.overflow = "hidden";
@@ -26,7 +27,7 @@ export default function AdminEmployeePage() {
     Loading.... 
   </p>
 ) : (
-  <AdminEmployee  />
+  <AdminLeavePage />
 )}
     </div>
     

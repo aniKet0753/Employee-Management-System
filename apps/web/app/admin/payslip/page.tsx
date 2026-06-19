@@ -1,7 +1,7 @@
 "use client";
 import AdminSidebar from "../../component/AdminSidebar";
 import Sidebar from "../../component/sidebar";
-import AdminEmployee from "../../pages/Employees";
+import AdminPaySlip from "../../pages/AdminPayslip";
 import { useEffect, useState } from "react";
 
 export default function AdminEmployeePage() {
@@ -26,7 +26,7 @@ export default function AdminEmployeePage() {
     Loading.... 
   </p>
 ) : (
-  <AdminEmployee  />
+  <AdminPaySlip  />
 )}
     </div>
     

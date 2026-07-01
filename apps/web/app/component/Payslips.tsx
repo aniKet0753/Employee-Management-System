@@ -1,6 +1,7 @@
 "use client";
 import { Download } from "lucide-react";
 import {dummyPayslipData} from "../assets/assets"
+import { useRouter } from "next/navigation";
   const employeeIds = "69b41439f8a807df391d7b52"; // Replace with logged-in user's ID
 
 
@@ -13,6 +14,7 @@ const EmployeePyslip = dummyPayslipData.filter(
 
 console.log(EmployeePyslip );
 export default function Payslips() {
+  const router = useRouter()
 
 const formateDate = (data:string) =>{
   return new Date(data).toLocaleDateString("en-US",{
@@ -20,6 +22,12 @@ const formateDate = (data:string) =>{
     year:"numeric",
     day:"numeric"
   })
+}
+
+function printpayslip() {
+  setTimeout(() => {
+    router.push(`/employe/payslip/printpayslip/${employeeIds}`)
+  }, 1000);
 }
 
   return (
@@ -41,7 +49,7 @@ const formateDate = (data:string) =>{
               <td style={{padding:"14px 16px", fontWeight:600}}>{formateDate(payslips.createdAt)}</td>
               <td style={{padding:"14px 16px", fontWeight:600}}>{payslips.basicSalary}</td>
               <td style={{padding:"14px 16px", fontWeight:600}}>{payslips.netSalary}</td>
-              <td><button><Download />Downlode</button></td>
+              <td><button onClick={printpayslip} style={{display:"inline-flex", alignItems:"center", gap:"5px", fontSize:"12px", fontWeight:500, padding:"5px 12px", borderRadius:"6px", background:"transparent", border:"1px solid rgba(255,255,255,0.15)", color:"#d1d5db", cursor:"pointer"}}><Download style={{height:"13px", width:"13px", fontFamily:"sans-serif"}}/>Downlode</button></td>
             </tr>
           ))}
         </tbody>

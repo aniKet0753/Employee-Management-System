@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/config/db.ts","./src/constants/departments.ts","./src/models/users.ts","./src/models/employee.ts"],"version":"6.0.3"}
+{"root":["./src/index.ts","./src/config/db.ts","./src/constants/departments.ts","./src/controller/employeecontroller.ts","./src/models/users.ts","./src/models/employee.ts"],"version":"6.0.3"}

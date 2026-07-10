@@ -4,14 +4,17 @@ dotenv.config()
 import express from "express";
 import cors from "cors";
 import connectDB from "./config/db.js";
+import { getEmployeees } from "./controller/employeeController.js";
+import { createenmployee } from "./controller/employeeController.js"
+import {createUser } from "./controller/employeeController.js"
 
 const app = express();
 app.use(cors({origin:"*"}))
 app.use(express.json());
 
-app.get("/",(req,res)=>{
- res.send("server is running")
-})
+app.get("/",getEmployeees)
+app.post("/api/employee",createenmployee)
+app.post("/user",createUser)
 
 const PORT = process.env.PORT;
 

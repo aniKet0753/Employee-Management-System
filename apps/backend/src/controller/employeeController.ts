@@ -1,4 +1,3 @@
-import axios from "axios"
 import type { Request, Response } from "express"
 import Employee from "../models/employee.js"
 import User from "../models/Users.js"
@@ -24,7 +23,7 @@ export const getEmployeees = async(req:Request,res:Response) => {
   try{
     const getemploye = await Employee.find().populate("userId");
     res.status(200).json(getemploye)
-    // console.log(getemploye);
+     console.log(getemploye);
   }catch(error:any){
     res.status(500).json({
       error:error.message,
@@ -57,9 +56,7 @@ export const createenmployee = async (req:Request, res:Response)=>{
 
 // //update employee
 // //pur: api/employee/:id
-// export const updatemaployee = async (req, res)=>{
 
-// }
 
 // //delete employee
 // //delete: api/employee/:id

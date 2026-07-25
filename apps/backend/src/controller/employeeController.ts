@@ -1,6 +1,8 @@
 import type { Request, Response } from "express"
 import Employee from "../models/employee.js"
 import User from "../models/Users.js"
+import mongoose from "mongoose"
+import employee from "../models/employee.js";
 
 export const createUser = async (req:Request, res:Response) => {
   try {
@@ -57,10 +59,34 @@ export const createenmployee = async (req:Request, res:Response)=>{
 // //update employee
 // //pur: api/employee/:id
 
+// export const updateemployee = async (req:Request, res:Response ) => {
+//     const id = req.params.id;
 
-// //delete employee
-// //delete: api/employee/:id
-// export const deleteemploye = async (req,res)=>{
+//     if (!id || Array.isArray(id)) {
+//         return res.send('No valid ID provided. Handling default behavior.');
+//     }
 
-// }
+//     try {
+//         const updatedEmployee = await Employee.findByIdAndUpdate(id, req.body, {
+//             new: true,
+//             runValidators: true,
+//         });
+// console.log(updatedEmployee)
+//         if (!updatedEmployee) {
+//             return res.status(404).json({
+//                 success: false,
+//                 message: 'Employee not found',
+//             });
+//         }
 
+//         res.status(200).json({
+//             success: true,
+//             data: updatedEmployee,
+//         });
+//     } catch (error:any) {
+//         res.status(500).json({
+//             success: false,
+//             message: error.message,
+//         });
+//     }
+// };

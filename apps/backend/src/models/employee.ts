@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
 import { DEPARTMENTS } from "../constants/departments.js";
 
 const employeeSchema = new mongoose.Schema({
@@ -18,6 +18,6 @@ const employeeSchema = new mongoose.Schema({
   department : {type: String, enum: DEPARTMENTS}
 },{timestamps:true})
 
-const Employee = mongoose.models.Employee || mongoose.model("Employee", employeeSchema)
+const Employee = mongoose.model("Employee", employeeSchema);
 
 export default Employee;

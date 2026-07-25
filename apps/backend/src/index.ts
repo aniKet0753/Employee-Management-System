@@ -7,6 +7,8 @@ import connectDB from "./config/db.js";
 import { getEmployeees } from "./controller/employeeController.js";
 import { createenmployee } from "./controller/employeeController.js"
 import {createUser } from "./controller/employeeController.js"
+// import { updateemployee } from "./controller/employeeController.js"
+
 
 const app = express();
 app.use(cors({origin:"*"}))
@@ -15,6 +17,8 @@ app.use(express.json());
 app.get("/",getEmployeees)
 app.post("/api/employee",createenmployee)
 app.post("/user",createUser)
+// app.put("/api/employee/:id",updateemployee)
+// app.delete("/api/employee/:id",deleteEmployee)
 
 const PORT = process.env.PORT;
 

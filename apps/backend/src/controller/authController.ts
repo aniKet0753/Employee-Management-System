@@ -80,8 +80,8 @@ export const changepassword= async (req:Request, res: Response)=>{
   }
   if(verified){
     const createnewpassword = await bcrypt.hash(newpassowrd,10);
-    finduser.password = createnewpassword;
-    await finduser.save();
+    finduser.password = createnewpassword;//new password ready to go on the place of old passowrd
+    await finduser.save();//new passord saved succefully
     // await User.findByIdAndUpdate(userId)
     return res.status(200).json({
       createnewpassword:createnewpassword,

@@ -7,6 +7,7 @@ import connectDB from "./config/db.js";
 import { getEmployeees } from "./controller/employeeController.js";
 import { createenmployee } from "./controller/employeeController.js"
 import {createUser } from "./controller/employeeController.js"
+import { login } from "./controller/authController.js";
 // import { updateemployee } from "./controller/employeeController.js"
 
 
@@ -19,6 +20,7 @@ app.post("/api/employee",createenmployee)
 app.post("/user",createUser)
 // app.put("/api/employee/:id",updateemployee)
 // app.delete("/api/employee/:id",deleteEmployee)
+app.get("/login",login)
 
 const PORT = process.env.PORT;
 

@@ -3,7 +3,10 @@ import type { Request } from "express";
 import type { Response } from "express";
 import User from "../models/Users.js";
 import bcrypt from "bcrypt";
+import session from "express-session";
 import jwt from "jsonwebtoken";
+import { json } from "stream/consumers";
+import { error } from "console";
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -51,4 +54,43 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-//session
+//passowrd change 
+export const changepassword= async (req:Request, res: Response)=>{
+  try{
+  const {email,password, newpassowrd}=req.body;
+  const finduser= await User.findOne({email});
+  console.log(finduser)
+  if(!finduser){
+    return res.status(401).json({
+      error:"user not found"
+    })
+  }
+  if(!email){
+    return res.status(401).json({
+      error:"user not found with this email"
+    })
+  }
+
+  const  verified = await bcrypt.compare(password,finduser.password)
+
+  if(!verified){
+    return res.status(401).json({
+      error:"password is not valid"
+    })
+  }
+  if(verified){
+    const createnewpassword = await bcrypt.hash(newpassowrd,10);
+    finduser.password = createnewpassword;
+    await finduser.save();
+    // await User.findByIdAndUpdate(userId)
+    return res.status(200).json({
+      createnewpassword:createnewpassword,
+      sucess:true
+    })
+  }
+}catch(error){
+  res.status(500).json({
+    error:"error occure while updating the password"
+  })
+}
+}

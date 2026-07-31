@@ -25,7 +25,7 @@ export const middleware = (req:Request, res:Response, next:NextFunction)=>{
       const isverified = jwt.verify(token,jwtsecrete);
 
       if(isverified){
-        
+
         next()
       }
     }catch(error){

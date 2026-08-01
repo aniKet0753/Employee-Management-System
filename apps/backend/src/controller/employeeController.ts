@@ -2,7 +2,6 @@ import type { Request, Response } from "express"
 import Employee from "../models/employee.js"
 import User from "../models/Users.js"
 import mongoose from "mongoose"
-import employee from "../models/employee.js";
 
 export const createUser = async (req:Request, res:Response) => {
   try {

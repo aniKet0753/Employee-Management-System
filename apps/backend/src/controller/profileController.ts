@@ -25,10 +25,16 @@ export const getprofiledata = async (req:Request, res:Response)=>{
 }
 
 export const updateprofiledata = async (req:Request, res:Response)=>{
-  const userdata = req.body.email;
+    const { email, ...updatedata } = req.body;
   try{
-
+    const updateEmployee = await Employee.findOneAndUpdate({email},updatedata, { new: true })
+    res.status(200).json({
+      success:true,
+      data:updateEmployee
+    })
   }catch(error){
-
+    res.status(505).json({
+      error
+    })
   }
 }

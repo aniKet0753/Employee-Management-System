@@ -9,7 +9,7 @@ import { createenmployee } from "./controller/employeeController.js"
 import {createUser } from "./controller/employeeController.js"
 import { changepassword, login } from "./controller/authController.js";
 import { middleware } from "./middleware/auth.js";
-import { getprofiledata } from "./controller/profileController.js";
+import { getprofiledata, updateprofiledata } from "./controller/profileController.js";
 // import { updateemployee } from "./controller/employeeController.js"
 
 
@@ -25,6 +25,7 @@ app.post("/user",createUser)
 app.post("/login",login)
 app.get("/api/users",getprofiledata)
 app.post("/newpassword",middleware,changepassword)
+app.post("/api/profile/update",updateprofiledata)
 
 const PORT = process.env.PORT;
 

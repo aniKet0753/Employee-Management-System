@@ -5,7 +5,7 @@ const attandanceSchema = new mongoose.Schema({
   data: {type: Date, required: true},
   checkIn: {type: Date, required: true},
   checkOut: {type: Date, required: false},
-  status:{type: String, enum: ["PRESENT", "ABSENT"], default: "ABSENT"},
+  status:{type: String, enum: ["PRESENT", "ABSENT"], default: "PRESENT"},
   workingHours: {type: Number, default: 0 },
   dayType: {type: String, enum: ["WEEKDAY", "WEEKEND", "HOLIDAY"], default: "WEEKDAY"},
 },{timestamps:true})

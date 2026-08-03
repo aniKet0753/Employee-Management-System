@@ -3,7 +3,6 @@ import Employee from "../models/employee.js";
 import Attandance from "../models/attendance.js";
 
 
-
 export const clockInOut = async (req: Request, res: Response) =>{
   const { email } = req.body;
   const employee = await Employee.findOne({email:email});
@@ -37,7 +36,7 @@ export const clockInOut = async (req: Request, res: Response) =>{
     existingAttendance.checkOut = now;
 
    const workinghour = parseFloat(durationInHours.toFixed(2));
-   let datatype = "Half day ";
+   let datatype = "Half day";
   // Map calculated working duration to the application's dayType union
   // Allowed values for dayType are: "WEEKDAY" | "WEEKEND" | "HOLIDAY"
   // Default to WEEKDAY; if the date falls on weekend mark as WEEKEND.
@@ -52,7 +51,6 @@ export const clockInOut = async (req: Request, res: Response) =>{
     datatype = "three quarter day"
   }else if(workinghour >= 4){
     datatype = "Half day"
-    
   }else{
     datatype = "Less than half day"
   }

@@ -37,7 +37,17 @@ export const leaveApplication = async (req: Request, res: Response)=>{
 //get leave 
 export const getleaveApplication = async (req: Request, res: Response)=>{
   const {email} = req.body;
-  const employee = await Employee.findOne({email: email});
+  const findEmployee = await Employee.findOne({email});
+  const isAdmin = req.body.role === "ADMIN";
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
+  if (!isAdmin) {
+    return res.status(403).json({ message: "Access denied" });
+  }
+
+  const applications = await LeaveApplication.find()
+  return res.status(200).json({ applications });
 }
 
 

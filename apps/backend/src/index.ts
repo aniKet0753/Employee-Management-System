@@ -11,7 +11,7 @@ import { changepassword, login } from "./controller/authController.js";
 import { middleware } from "./middleware/auth.js";
 import { getprofiledata, updateprofiledata } from "./controller/profileController.js";
 import { clockInOut, getAttandance } from "./controller/attandenceController.js";
-import { leaveApplication } from "./controller/leaveController.js";
+import { getleaveApplication, leaveApplication } from "./controller/leaveController.js";
 // import { updateemployee } from "./controller/employeeController.js"
 
 
@@ -31,6 +31,7 @@ app.put("/api/profile/update",updateprofiledata)
 app.get("/api/attendance",getAttandance)
 app.post("/api/attendance",middleware,clockInOut)
 app.post("/api/leave",leaveApplication)
+app.get("/api/leaveapplication",getleaveApplication)
 
 const PORT = process.env.PORT;
 

@@ -37,7 +37,6 @@ export const leaveApplication = async (req: Request, res: Response)=>{
 //get leave 
 export const getleaveApplication = async (req: Request, res: Response)=>{
   const {email} = req.body;
-  const findEmployee = await Employee.findOne({email});
   const isAdmin = req.body.role === "ADMIN";
   if (!email) {
     return res.status(400).json({ message: "Email is required" });
@@ -53,3 +52,36 @@ export const getleaveApplication = async (req: Request, res: Response)=>{
 
 
 //update leave satus
+export const updateLeaveStatus = async (req: Request, res: Response) => {
+  try {
+    const { status } = req.body;
+
+    if (!["APPROVED", "REJECTED", "PENDING"].includes(status)) {
+      return res.status(400).json({
+        message: "Invalid status value",
+      });
+    }
+
+    const leave = await LeaveApplication.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true } // return updated document
+    );
+
+    if (!leave) {
+      return res.status(404).json({
+        message: "Leave application not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Leave status updated successfully",
+      leave,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};

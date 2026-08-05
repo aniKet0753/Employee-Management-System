@@ -12,6 +12,7 @@ import { middleware } from "./middleware/auth.js";
 import { getprofiledata, updateprofiledata } from "./controller/profileController.js";
 import { clockInOut, getAttandance } from "./controller/attandenceController.js";
 import { getleaveApplication, leaveApplication, updateLeaveStatus } from "./controller/leaveController.js";
+import { generatePaySlip, getPaySlip, getPaySlipById } from "./controller/paySlipController.js";
 // import { updateemployee } from "./controller/employeeController.js"
 
 
@@ -33,6 +34,9 @@ app.post("/api/attendance",middleware,clockInOut)
 app.post("/api/leave",leaveApplication)
 app.get("/api/leaveapplication",getleaveApplication)
 app.put("/api/leave/:id",updateLeaveStatus)
+app.get("/api/payslip",getPaySlip)
+app.post("/api/payslip",generatePaySlip)
+app.get("/api/employee/:id",getPaySlipById)
 
 const PORT = process.env.PORT;
 

@@ -13,6 +13,7 @@ import { getprofiledata, updateprofiledata } from "./controller/profileControlle
 import { clockInOut, getAttandance } from "./controller/attandenceController.js";
 import { getleaveApplication, leaveApplication, updateLeaveStatus } from "./controller/leaveController.js";
 import { generatePaySlip, getPaySlip, getPaySlipById } from "./controller/paySlipController.js";
+import {getDashboard } from "./controller/dashboardController.js"
 // import { updateemployee } from "./controller/employeeController.js"
 
 
@@ -37,6 +38,7 @@ app.put("/api/leave/:id",updateLeaveStatus)
 app.get("/api/payslip",getPaySlip)
 app.post("/api/payslip",generatePaySlip)
 app.get("/api/employee/:id",getPaySlipById)
+app.get("/api/dashboard",getDashboard)
 
 const PORT = process.env.PORT;
 

@@ -3,10 +3,7 @@ import type { Request } from "express";
 import type { Response } from "express";
 import User from "../models/Users.js";
 import bcrypt from "bcrypt";
-import session from "express-session";
 import jwt from "jsonwebtoken";
-import { json } from "stream/consumers";
-import { error } from "console";
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -46,6 +43,7 @@ export const login = async (req: Request, res: Response) => {
     return res.json({
       user: payload,
       token,
+      message:"login successfully"
     });
   } catch (error) {
     res.status(500).json({

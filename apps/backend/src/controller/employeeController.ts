@@ -2,14 +2,20 @@ import type { Request, Response } from "express"
 import Employee from "../models/employee.js"
 import User from "../models/Users.js"
 import mongoose from "mongoose"
+import bcrypt, { hash } from "bcrypt";
 
 export const createUser = async (req:Request, res:Response) => {
   try {
     const user = await User.create(req.body);
+    const userpassword =  await bcrypt.hash(user.password,10)
+    user.password = userpassword;
+    user.save()
+    
 
     res.status(201).json({
+      password: userpassword,
       success: true,
-      data: user,
+      data: user
     });
   } catch (error) {
     res.status(500).json({

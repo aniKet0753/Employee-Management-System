@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function LoginAsAdmin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -9,12 +10,27 @@ export default function LoginAsAdmin() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setTimeout(() => setLoading(false), 2000); // replace with real auth
-    router.push("/admin/dashboard");
-  };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();//preventiong page relode to send login data
+  await adminloginfunc();
+};
+
+  const adminloginfunc = async () =>{
+    try{
+    const responce = await axios.post("http://localhost:3001/login",{
+      email:email,
+      password:password,
+      role_type:"ADMIN"
+    })
+    localStorage.setItem("token",responce.data.token)
+    console.log("login sucessfully", responce);
+    window.alert("login sucessfully")
+    router.push("/admin/dashboard")
+  }catch(error:any){
+    window.alert("there is an error")
+    console.log("error",error)
+  }
+  }
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", overflow: "hidden" }}>
@@ -263,7 +279,7 @@ export default function LoginAsAdmin() {
             </div>
 
             {/* Submit */}
-            <button type="submit" className="submit-btn" disabled={loading}>
+            <button  type="submit" className="submit-btn" disabled={loading}>
               {loading ? (
                 <>
                   <div className="spinner" />

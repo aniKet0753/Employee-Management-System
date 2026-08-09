@@ -4,6 +4,8 @@ import type { Response } from "express";
 import User from "../models/Users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { exit } from "process";
+import { error } from "console";
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -14,11 +16,17 @@ export const login = async (req: Request, res: Response) => {
       });
     }
 
+
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({
         message: "user not found in DB",
       });
+    }
+     if (user.role !== role_type) {
+       return res.status(403).json({
+       message: "Invalid role selected"
+     });
     }
 
     const isvalid = await bcrypt.compare(password, user.password); //comapre password from user model

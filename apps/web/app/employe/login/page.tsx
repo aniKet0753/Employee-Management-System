@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function LoginAsEmployee() {
   const [showPassword, setShowPassword] = useState(false);
@@ -9,15 +10,29 @@ export default function LoginAsEmployee() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const handlesubmit = async (e:React.FormEvent)=>{
+    e.preventDefault()
+    employeedashboard()
+  }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setTimeout(() => setLoading(false), 2000);
-  };
 
-  function employeedashboard() {
-    router.push("/employe/dashboard");
+  const employeedashboard = async ()=> {
+
+    try{
+    const responce = await axios.post("http://localhost:3001/login",{
+      email:employeeId,
+      password:password,
+      role_type:"EMPLOYEE"
+    })
+
+    localStorage.setItem("token",responce.data.token);
+
+    window.alert("login for employee is sucessfull");
+    router.push("/employe/dashboard")
+  }catch(error:any){
+    console.log("this is error")
+    window.alert("somwthing went wrong please check your Role or your email and password")
+  }
   }
   return (
     <div style={{ display: "flex", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", overflow: "hidden" }}>
@@ -204,7 +219,7 @@ export default function LoginAsEmployee() {
           </p>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+          <form onSubmit={handlesubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
 
             {/* Employee ID / Email */}
             <div>
@@ -253,7 +268,7 @@ export default function LoginAsEmployee() {
             </div>
 
             {/* Submit */}
-            <button onClick={employeedashboard} type="submit" className="submit-btn" disabled={loading}>
+            <button type="submit" className="submit-btn" disabled={loading}>
               {loading ? (
                 <>
                   <div className="spinner" />

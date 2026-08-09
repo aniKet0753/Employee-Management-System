@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+
 
 const navItems = [
   {
@@ -63,12 +65,18 @@ const navItems = [
 ];
 
 export default function Sidebar() {
+  const router = useRouter(); 
+
   const pathname = usePathname();
   const [loggingOut, setLoggingOut] = useState(false);
 
-  const handleLogout = () => {
+  const  handleLogout =  () => {
+    console.log("login hit")
     setLoggingOut(true);
-    setTimeout(() => setLoggingOut(false), 1500); // replace with real logout
+    console.log("hit2")
+    localStorage.clear()
+    console.log("hit 3")    
+    router.push("/login");
   };
 
   return (

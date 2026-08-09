@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
+import { useRouter } from "next/navigation";
 const adminNavItems = [
   {
     key: "dashboard",
@@ -34,12 +34,14 @@ const adminNavItems = [
 ];
 
 export default function AdminSidebar() {
+  const router = useRouter();
   const pathname = usePathname();
   const [loggingOut, setLoggingOut] = useState(false);
 
   const handleLogout = () => {
     setLoggingOut(true);
-    setTimeout(() => setLoggingOut(false), 1500); // replace with real logout
+    localStorage.clear();
+    router.push("/login")
   };
 
   return (

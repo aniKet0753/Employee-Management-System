@@ -8,7 +8,7 @@ import { DEPARTMENTS } from "../constants/departments.js";
 // get dashoboard for employee and admin
 export const getDashboard = async (req: Request, res: Response) => {
   try {
-    const { eamil } = req.body;
+    const { email } = req.body;
     const isAdmin = req.body.role === "ADMIN";
     if(isAdmin){
       const  [totalEmployees, totalLeaves, totalPaySlips] = await Promise.all([
@@ -24,7 +24,8 @@ export const getDashboard = async (req: Request, res: Response) => {
       ]);
       return res.status(200).json({ role:"ADMIN" ,totalEmployees,totalDepartmenrs: DEPARTMENTS.length, totalLeaves, totalPaySlips });
     }else{
-      const employee = await Employee.findOne(eamil)
+      const employee = await Employee.findOne({email})
+      
       if(!employee) return res.status(404).json({ error: "Employee not found" })
         const today = new Date();
         const [PendingLeaves,latestPayslip,currentMonthAttendance] = await Promise.all([
@@ -40,7 +41,6 @@ export const getDashboard = async (req: Request, res: Response) => {
       ])
       return res.status(200).json({
         role:"EMPLOYEE",
-        employee: {...employee, id: employee._id.toString()},
         PendingLeaves,
         latestPayslip,
         currentMonthAttendance

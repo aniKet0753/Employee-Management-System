@@ -2,7 +2,15 @@ import jwt from "jsonwebtoken";
 import type { Response, Request, NextFunction } from "express";
 import { error } from "console";
 
-export const middleware = (req:Request, res:Response, next:NextFunction)=>{
+export interface AuthRequest extends Request {
+  user?: {
+    userId: string;
+    role: string;
+    email: string;
+  };
+}
+
+export const middleware = (req:AuthRequest, res:Response, next:NextFunction)=>{
   try{
   const authHeader= req.headers.authorization;
   if(!authHeader || !authHeader.startsWith("Bearer")){
@@ -22,15 +30,20 @@ export const middleware = (req:Request, res:Response, next:NextFunction)=>{
           error:"please provide jwt secreate"
         })
       }
-      const isverified = jwt.verify(token,jwtsecrete);
-
-      if(isverified){
-
+      const isverified = jwt.verify(token,jwtsecrete) as {
+         userId: string;
+         role: string;
+         email: string;
+      };
+        req.user = isverified;
         next()
-      }
-    }catch(error){
-      res.status(500).json({
-        messgae:"middleware verification failed"
-      })
-    }
+      
+    }catch (error) {
+  console.error("JWT VERIFICATION ERROR:", error);
+
+  return res.status(401).json({
+    message: "Invalid or expired token",
+    error: error instanceof Error ? error.message : error,
+  });
+}
 }

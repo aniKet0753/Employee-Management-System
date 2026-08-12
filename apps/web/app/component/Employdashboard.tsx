@@ -1,20 +1,28 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar1Icon, DollarSignIcon, FileTextIcon} from 'lucide-react';
-import { dummyEmployeeDashboardData } from "../assets/assets";
 import {useRouter} from "next/navigation";
+import axios from "axios";
 
-type dummyEmployeeDashboardData = {
-  data: any;
+type employee = {
+    "role": string,
+    "PendingLeaves": number,
+    "latestPayslip": number | null,
+    "currentMonthAttendance": number,
+    "firstName": string,
+    "lastName": string,
+    "position": string,
+    "department": string
+}
+type EmployeeDashboardProps = {
+  data: employee;
 };
 
-
-
-export default function EmployeeDashboard ({data}: dummyEmployeeDashboardData) {
+export default function EmployeeDashboard ({data,}:EmployeeDashboardProps){
   const router = useRouter();
 
-  console.log("Data in EmployeeDashboard component:", data);
-  const emp = data.employee;
+
+  const emp = data
   const card = [
     {
       icon: <Calendar1Icon  color="white"/>,
@@ -25,13 +33,13 @@ export default function EmployeeDashboard ({data}: dummyEmployeeDashboardData) {
     },
     {
       icon: <FileTextIcon  color="white"/>,
-      value: data.pendingLeaves,
+      value: data.PendingLeaves,
       title: "Pending Leaves",
       subtitle: "Awaiting approval",
       path: "/leaves",
     },{
        icon: <DollarSignIcon  color="white"/>,
-      value: data.latestPayslip ? `${data.latestPayslip.netSalary?.toLocaleString()}` : "N/A",
+      value: data.latestPayslip ? `${data.latestPayslip?.toLocaleString()}` : "N/A",
       title: "Latest Payslip",
       subtitle: "Most Recent Payment",
       path:"/payslip",

@@ -38,7 +38,7 @@ app.put("/api/leave/:id",updateLeaveStatus)
 app.get("/api/payslip",getPaySlip)
 app.post("/api/payslip",generatePaySlip)
 app.get("/api/employee/:id",getPaySlipById)
-app.get("/api/dashboard",getDashboard)
+app.get("/api/dashboard",middleware,getDashboard)
 
 const PORT = process.env.PORT;
 

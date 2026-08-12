@@ -4,12 +4,15 @@ import LeaveApplication from "../models/Leaveapplication.js";
 import Employee from "../models/employee.js";
 import Attandance from "../models/attendance.js";
 import { DEPARTMENTS } from "../constants/departments.js";
+import type { AuthRequest } from "../middleware/auth.js";
+
 
 // get dashoboard for employee and admin
-export const getDashboard = async (req: Request, res: Response) => {
+export const getDashboard = async (req: AuthRequest, res: Response) => {
   try {
-    const { email } = req.body;
-    const isAdmin = req.body.role === "ADMIN";
+    const { email } = req.user!;
+    const isAdmin = req.user!.role === "ADMIN";
+
     if(isAdmin){
       const  [totalEmployees, totalLeaves, totalPaySlips] = await Promise.all([
         Employee.countDocuments(),
@@ -43,11 +46,21 @@ export const getDashboard = async (req: Request, res: Response) => {
         role:"EMPLOYEE",
         PendingLeaves,
         latestPayslip,
-        currentMonthAttendance
+        currentMonthAttendance,
+        firstName:employee.firstName,
+        lastName:employee.lastName,
+        position:employee.position,
+        department:employee.department
+
       })
     }
-        }catch (error) {
-    return res.status(500).json({ message: "Error fetching dashboard data", error });
-  }
+  }catch (error) {
+  console.error("DASHBOARD ERROR:", error);
+
+  return res.status(500).json({
+    message: "Error fetching dashboard data",
+    error: error instanceof Error ? error.message : error,
+  });
+}
 
   }

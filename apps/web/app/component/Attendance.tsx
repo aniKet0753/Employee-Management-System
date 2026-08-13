@@ -1,13 +1,15 @@
 "use client";
-import { useState } from "react";
-import { dummyAttendanceData } from "../assets/assets";
+import {useEffect, useState } from "react";
 import { Calendar, AlertCircle, Clock } from "lucide-react";
+import axios from "axios";
 
 type AttendanceRecord = {
-  date: string;
+   _id: string;
+  employeeId: string;
+  data: string;
   checkIn: string;
-  checkOut: string;
-  workingHours: string | number;
+  checkOut?: string;
+  workingHours: number;
   dayType: string;
   status: string;
 };
@@ -17,13 +19,37 @@ type AttendanceProps = {
 };
 
 export default function Attendance({ data }: AttendanceProps) {
-  const records: AttendanceRecord[] = data ?? dummyAttendanceData;
-  const [CheckedIn, checkedOut] = useState(false);
+  const records: AttendanceRecord[] = data ?? [];
+  useEffect(() => {
+  const activeAttendance = records.find(
+    (record) => record.checkIn && !record.checkOut
+  );
+
+  setIsCheckedIn(!!activeAttendance);
+}, [records]);
+
+  const [isCheckedIn, setIsCheckedIn] = useState(false);
+  const [attendanceLoading, setAttendanceLoading] = useState(false);
 
   const daysPresent = records.filter((r) => r.status === "PRESENT").length;
-  const lateArrivals = records.filter((r) => r.dayType === "Late").length;
-  const avgWorkHrs = "8.5 Hrs"; // placeholder until real calc is wired up
+  const lateArrivals = records.filter((record) => {
+  const checkIn = new Date(record.checkIn);
 
+  return (
+    checkIn.getHours() > 9 ||
+    (checkIn.getHours() === 9 && checkIn.getMinutes() > 0)
+  );
+}).length;
+
+const avgWorkHrs =
+  records.length > 0
+    ? (
+        records.reduce((total, record) => total + Number(record.workingHours), 0) /
+        records.length
+      ).toFixed(2)
+    : "0.00";
+
+const avgWorkHrsDisplay = `${avgWorkHrs} Hrs`;
   const formatTime = (date: string) => {
     return new Date(date).toLocaleTimeString("en-US", {
       hour: "2-digit",
@@ -40,10 +66,48 @@ export default function Attendance({ data }: AttendanceProps) {
     });
   };
 
-  function checkinFunction() {
-    console.log("this is clicked");
-  }
+const checkinFunction = async () => {
+  try {
+    setAttendanceLoading(true);
 
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("You are not logged in");
+      return;
+    }
+
+    const response = await axios.post(
+      "http://localhost:3001/api/attendance",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log("Clock response:", response.data);
+
+    if (response.data.type === "checkin") {
+      setIsCheckedIn(true);
+    }
+
+    if (response.data.type === "checkout") {
+      setIsCheckedIn(false);
+    }
+
+  } catch (error: any) {
+    console.error("Clock in/out error:", error);
+
+    alert(
+      error.response?.data?.message ||
+      "Something went wrong"
+    );
+  } finally {
+    setAttendanceLoading(false);
+  }
+};
   return (
     <>
       <style>{`
@@ -273,7 +337,7 @@ export default function Attendance({ data }: AttendanceProps) {
                     marginTop: 4,
                   }}
                 >
-                  {avgWorkHrs}
+                  {avgWorkHrsDisplay}
                 </div>
               </div>
             </div>
@@ -326,11 +390,11 @@ export default function Attendance({ data }: AttendanceProps) {
                   {records.map((rec, idx) => (
                     <tr key={idx}>
                       <td style={{ fontWeight: 600, color: "#fff" }}>
-                        {formatDate(rec.date)}
+                        {formatDate(rec.data)}
                       </td>
-                      <td>{formatTime(rec.checkIn)}</td>
-                      <td>{formatTime(rec.checkOut)}</td>
-                      <td>{rec.workingHours}</td>
+                      <td> {rec.checkIn ? formatTime(rec.checkIn) : "--"}</td>
+                      <td>{rec.checkOut ? formatTime(rec.checkOut) : "--"}</td>
+                      <td>{rec.workingHours} Hrs</td>
                       <td>
                         <span className="daytype-pill">{rec.dayType}</span>
                       </td>
@@ -352,25 +416,31 @@ export default function Attendance({ data }: AttendanceProps) {
             </div>
           </div>
         </div>
-        <button onClick={checkinFunction}
-          style={{
+        <button
+           onClick={checkinFunction}
+           disabled={attendanceLoading}
+           style={{
             position: "fixed",
             bottom: "24px",
-            right: "24px",
-            background: "#008000 ",
-            color: "#fff",
-            border: "none",
-            borderRadius: "12px",
-            padding: "14px 24px",
-            fontSize: "14px",
-            fontWeight: 600,
-            cursor: "pointer",
-           marginRight:"25px",
-           zIndex: 1000,
-          }}
-        >
-          Check In
-        </button>
+             right: "24px",
+              background: isCheckedIn ? "#dc2626" : "#008000",
+               color: "#fff",
+               border: "none",
+                borderRadius: "12px",
+                 padding: "14px 24px",
+                 fontSize: "14px",
+                  fontWeight: 600,
+                   cursor: attendanceLoading ? "not-allowed" : "pointer",
+                   marginRight: "25px",
+                   zIndex: 1000,
+                       opacity: attendanceLoading ? 0.7 : 1,
+                }} >
+  {attendanceLoading
+    ? "Processing..."
+    : isCheckedIn
+    ? "Check Out"
+    : "Check In"}
+</button>
       </div>
     </>
   );

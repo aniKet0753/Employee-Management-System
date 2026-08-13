@@ -1,10 +1,11 @@
 import type { Request, Response } from "express";
 import Employee from "../models/employee.js";
-import Attandance from "../models/attendance.js";
+import Attandance from "../models/Attendance.js"
+import type {AuthRequest}  from "../middleware/auth.js";
 
 
-export const clockInOut = async (req: Request, res: Response) =>{
-  const { email } = req.body;
+export const clockInOut = async (req: AuthRequest, res: Response) =>{
+  const { email } = req.user!;
   const employee = await Employee.findOne({email:email});
     if(!email){
     res.status(400).json({
@@ -66,8 +67,9 @@ export const clockInOut = async (req: Request, res: Response) =>{
 }
 }
 
-export const getAttandance = async (req: Request, res: Response) =>{
-  const { email } = req.body;
+export const getAttandance = async (req: AuthRequest, res: Response) =>{
+  
+  const { email } = req.user!;
   const employee = await Employee.findOne({email:email});
   if(!email){
     res.status(400).json({
@@ -78,6 +80,7 @@ export const getAttandance = async (req: Request, res: Response) =>{
   try{
     const limit = parseInt(req.query.limit as string) || 30;
     const history = await Attandance.find({employeeId:employee?._id}).sort({data:-1}).limit(limit);
+    console.log(history)
     return res.json({
       success:true,
       history,

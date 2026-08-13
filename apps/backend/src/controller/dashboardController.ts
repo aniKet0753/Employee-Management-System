@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import PaySlip from "../models/PaySlip.js";
 import LeaveApplication from "../models/Leaveapplication.js";
 import Employee from "../models/employee.js";
-import Attandance from "../models/attendance.js";
+import Attandance from "../models/Attendance.js";
 import { DEPARTMENTS } from "../constants/departments.js";
 import type { AuthRequest } from "../middleware/auth.js";
 

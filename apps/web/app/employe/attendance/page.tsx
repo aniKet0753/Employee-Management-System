@@ -3,11 +3,13 @@ import Sidebar from "../../component/sidebar";
 import AttandasnceComponent from "../../component/Attendance";
 import { useEffect, useState } from "react";
 import {dummyAttendanceData} from "../../assets/assets"
+import axios from "axios";
 
 export default function Attandance() {
   const [loading , setloading] = useState(true);
   const [isDeleted, setDelete] = useState(false);
   const [data, setdata]= useState<any>(null);
+  const [error,setError]= useState("")
    
 
   // useEffect(() => {
@@ -17,10 +19,45 @@ export default function Attandance() {
   //   };
   // }, []);  
 
-  useEffect(() =>{
-    setdata(dummyAttendanceData)
-    setloading(false);
-  },[])
+  useEffect(() => {
+    const fetchAttandance = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          setError("You are not logged in");
+          setloading(false);
+          return;
+        }
+
+        const response = await axios.get(
+         "http://localhost:3001/api/attendance",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("Dashboard data:", response.data);
+
+        setdata(response.data.history);
+
+      } catch (error: any) {
+        console.error("Dashboard error:", error);
+
+        setError(
+          error.response?.data?.message ||
+          "Failed to load dashboard"
+        );
+
+      } finally {
+        setloading(false);
+      }
+    };
+
+    fetchAttandance();
+  }, []);
 
   return (
     <div style={{ height: "100vh", display: "flex" }}>

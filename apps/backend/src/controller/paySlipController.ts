@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import User from "../models/employee.js";
 import PaySlip from "../models/PaySlip.js";
 import Employee from "../models/employee.js";
+import type { AuthRequest } from "../middleware/auth.js";
 
 export const generatePaySlip = async (req: Request, res: Response) => {
   try {
@@ -36,10 +37,10 @@ export const generatePaySlip = async (req: Request, res: Response) => {
 };
 
 //get payslip for both employee and admin
-export const getPaySlip = async (req: Request, res: Response) => {
+export const getPaySlip = async (req: AuthRequest, res: Response) => {
   try {
-    const {email} = req.body;
-    const isAdmin = req.body.role === "ADMIN";
+    const {email} = req.user!;
+    const isAdmin = req.user!.role === "ADMIN";
     if (!email) {
       return res.status(400).json({ message: "Email is required" });
     }

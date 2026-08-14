@@ -15,7 +15,7 @@ export default function EmployeeLeaving() {
 
   useEffect(() =>{
     setloading(false);
-  },[])
+  },[]) 
 
   return (
     <div style={{ height: "100vh", display: "flex" }}>

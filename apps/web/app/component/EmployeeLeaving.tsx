@@ -1,18 +1,53 @@
 "use client";
-import { dummyLeaveData } from "../assets/assets";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+type LeaveData = {
+  _id: string;
+  employeeId: string;
+  type: "SICK" | "CASUAL" | "EARNED" | "ANNUAL";
+  startDate: string;
+  endDate: string;
+  reason: string;
+  status: "APPROVED" | "REJECTED" | "PENDING";
+};
+
+type LeaveResponse = {
+  sickLeave: number;
+  casualLeave: number;
+  AnuallLaeve: number;
+  leavedata: LeaveData;
+};
 
 export default function EmployeeLeaving() {
-  const approvedCount = dummyLeaveData.filter(
-    (leave) => leave.status === "APPROVED",
-  ).length;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [data,setData]= useState<LeaveResponse | null>(null)
 
-  const casualLeaveCount = dummyLeaveData.filter(
-    (casual) => casual.type === "CASUAL" && casual.status === "APPROVED",
-  ).length;
-
-  const AnnualLeaveCount = dummyLeaveData.filter((annual) => {
-    return annual.type === "ANNUAL" && annual.status === "APPROVED";
-  }).length;
+useEffect(()=>{
+  const getleave  = async () =>{
+    try{
+  const token = localStorage.getItem("token");
+  if(!token){
+   setError("You are not logged in");
+          setLoading(false);
+          return;
+  }
+    const responce = await axios.get("http://localhost:3001/api/leaveapplication",{
+      headers:{
+        Authorization:`Bearer ${token}`,
+      }
+    })
+    console.log("leave application data", responce.data)
+    setData(responce.data)
+  }catch(error){
+    console.error("Dashboard error:", error);
+  }finally{
+   setLoading(false)
+  }
+  }
+  getleave();
+  },[])
 
   const formatDate = (data: string) => {
     return new Date(data).toLocaleDateString("en-US", {
@@ -37,19 +72,19 @@ export default function EmployeeLeaving() {
   const stats = [
     {
       label: "Sick Leave",
-      count: approvedCount,
+      count: data?.sickLeave,
       icon: "🌡️",
       iconBg: "rgba(251,146,60,0.15)",
     },
     {
       label: "Casual Leave",
-      count: casualLeaveCount,
+      count: data?.casualLeave,
       icon: "☂️",
       iconBg: "rgba(59,76,202,0.2)",
     },
     {
       label: "Annual Leave",
-      count: AnnualLeaveCount,
+      count: data?.AnuallLaeve,
       icon: "✈️",
       iconBg: "rgba(59,76,202,0.2)",
     },
@@ -130,45 +165,91 @@ export default function EmployeeLeaving() {
             </tr>
           </thead>
           <tbody>
-            {dummyLeaveData.map((leave, i) => (
+            {data?.leavedata ? (
               <tr
-                key={leave._id}
-                style={{
-                  borderBottom: i < dummyLeaveData.length - 1 ? "1px solid #1a2030" : "none",
-                  transition: "background 0.15s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = "#1a2030")}
-                onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
-              >
-                <td style={{ padding: "18px 28px" }}>
-                  <span style={{
-                    display: "inline-flex", padding: "4px 12px", borderRadius: "6px",
-                    fontSize: "11px", fontWeight: 600, textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    ...typeBadgeStyle[leave.type],
-                  }}>
-                    {leave.type}
-                  </span>
-                </td>
-                <td style={{ padding: "18px 28px", fontSize: "14px", color: "#e5e7eb", fontWeight: 500 }}>
-                  {formatDate(leave.startDate)}
-                </td>
-                <td style={{ padding: "18px 28px", fontSize: "14px", color: "#9ca3af" }}>
-                  {leave.reason}
-                </td>
-                <td style={{ padding: "18px 28px" }}>
-                  <span style={{
-                    display: "inline-flex", padding: "4px 12px", borderRadius: "20px",
-                    fontSize: "11px", fontWeight: 700, textTransform: "uppercase",
-                    letterSpacing: "0.06em",
-                    ...statusBadgeStyle[leave.status],
-                  }}>
-                    {leave.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+    key={data.leavedata._id}
+    style={{
+      borderBottom: "1px solid #1a2030",
+      transition: "background 0.15s",
+    }}
+    onMouseEnter={(e) =>
+      (e.currentTarget.style.background = "#1a2030")
+    }
+    onMouseLeave={(e) =>
+      (e.currentTarget.style.background = "transparent")
+    }
+  >
+    <td style={{ padding: "18px 28px" }}>
+      <span
+        style={{
+          display: "inline-flex",
+          padding: "4px 12px",
+          borderRadius: "6px",
+          fontSize: "11px",
+          fontWeight: 600,
+          textTransform: "uppercase",
+          letterSpacing: "0.05em",
+          ...typeBadgeStyle[data.leavedata.type],
+        }}
+      >
+        {data.leavedata.type}
+      </span>
+    </td>
+
+    <td
+      style={{
+        padding: "18px 28px",
+        fontSize: "14px",
+        color: "#e5e7eb",
+        fontWeight: 500,
+      }}
+    >
+      {formatDate(data.leavedata.startDate)}
+      {" - "}
+      {formatDate(data.leavedata.endDate)}
+    </td>
+
+    <td
+      style={{
+        padding: "18px 28px",
+        fontSize: "14px",
+        color: "#9ca3af",
+      }}
+    >
+      {data.leavedata.reason}
+    </td>
+
+    <td style={{ padding: "18px 28px" }}>
+      <span
+        style={{
+          display: "inline-flex",
+          padding: "4px 12px",
+          borderRadius: "20px",
+          fontSize: "11px",
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: "0.06em",
+          ...statusBadgeStyle[data.leavedata.status],
+        }}
+      >
+        {data.leavedata.status}
+      </span>
+    </td>
+  </tr>
+) : (
+  <tr>
+    <td
+      colSpan={4}
+      style={{
+        padding: "30px",
+        textAlign: "center",
+        color: "#6b7280",
+      }}
+    >
+      No leave applications found.
+    </td>
+  </tr>)}
+       </tbody>
         </table>
       </div>
 

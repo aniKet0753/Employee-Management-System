@@ -1,10 +1,11 @@
 import type { Request, Response } from 'express';
 import LeaveApplication from "../models/Leaveapplication.js"
 import Employee from "../models/employee.js"
+import type { AuthRequest } from '../middleware/auth.js';
 
 //create leave 
 //post 
-export const leaveApplication = async (req: Request, res: Response)=>{
+export const leaveApplication = async (req: AuthRequest, res: Response)=>{
   const {email, type, startDate, endDate, reason } = req.body;
 
   if(!type || !startDate || !endDate || !reason){
@@ -35,18 +36,34 @@ export const leaveApplication = async (req: Request, res: Response)=>{
 }
 
 //get leave 
-export const getleaveApplication = async (req: Request, res: Response)=>{
-  const {email} = req.body;
-  const isAdmin = req.body.role === "ADMIN";
+export const getleaveApplication = async (req: AuthRequest, res: Response)=>{
+  const {email} = req.user!;
+
+  const isAdmin = req.user!.role === "ADMIN";
   if (!email) {
     return res.status(400).json({ message: "Email is required" });
   }
   if (!isAdmin) {
-    return res.status(403).json({ message: "Access denied" });
-  }
+    const employee = await Employee.findOne({email})
 
+    if(!employee) return res.status(404).json({ error: "Employee not found" })
+
+    const [sickLeave, casualLeave, AnuallLaeve,leavedata]= await Promise.all([
+         LeaveApplication.countDocuments({employeeId:employee._id,type: "SICK" }),
+         LeaveApplication.countDocuments({employeeId:employee._id,type: "CASUAL" }),
+         LeaveApplication.countDocuments({employeeId:employee._id,type: "EARNED" }),
+         LeaveApplication.findOne({employeeId:employee._id})
+        ]) 
+  return res.status(200).json({
+    sickLeave,
+    casualLeave,
+    AnuallLaeve,
+    leavedata
+    })
+  }else{
   const applications = await LeaveApplication.find()
   return res.status(200).json({ applications });
+}
 }
 
 

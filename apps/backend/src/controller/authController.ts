@@ -4,8 +4,6 @@ import type { Response } from "express";
 import User from "../models/Users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { exit } from "process";
-import { error } from "console";
 
 export const login = async (req: Request, res: Response) => {
   try {

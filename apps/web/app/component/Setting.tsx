@@ -1,40 +1,58 @@
 "use client";
-import { dummyProfileData } from "../assets/assets";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 type Profile = {
   _id: string;
   firstName: string;
   lastName: string;
-  email: string;
+  department:string,
+  bio:string,
+  position:string,
   image: string | null;
 };
 
 export default function EmployeeSettings() {
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [data, setdata] = useState<Profile | null>(null);
   const [passwordModal, setPasswordModal] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [department, setDepartment] = useState("");
   const [position, setPosition] = useState("");
   const [bio, setBio] = useState("");
   const [saved, setSaved] = useState(false);
 
-  const fetchData = async () => {
-    setProfile(dummyProfileData);
-    setFirstName(dummyProfileData.firstName);
-    setLastName(dummyProfileData.lastName);
-    setEmail(dummyProfileData.email);
-  };
+  function handleSave(){
+    return console.log("save butoon clicked");
+  }
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+useEffect(()=>{
+  const settings = async ()=>{
+    try{ 
+      const token = localStorage.getItem("token");
+     if(!token){
+      return console.log("token is not gicen")
+    }
+    const responce = await axios.get("http://localhost:3001/api/users",{
+      headers:{
+        Authorization:`Bearer ${token}`
+      }
+    })
+    const profile = responce.data.data;
+    setdata(profile)
+    setFirstName(profile.firstName || "")
+    setLastName(profile.lastName || "")
+    setDepartment(profile.department || "")
+    setPosition(profile.position || "")
+    setBio(profile.bio || "")
 
-  const handleSave = () => {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  };
+
+  }catch(error){
+    console.log("catch error",error)
+  }
+ }
+  settings()
+},[])
 
   const inputStyle = {
     border: "1px solid #2a2d3a",
@@ -95,7 +113,7 @@ export default function EmployeeSettings() {
             <input
               style={inputStyle}
               type="text"
-              placeholder="John Doe"
+              placeholder="Ankit kumar"
               value={`${firstName} ${lastName}`.trim()}
               onChange={(e) => {
                 const parts = e.target.value.split(" ");
@@ -105,13 +123,13 @@ export default function EmployeeSettings() {
             />
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-            <label style={labelStyle}>Email</label>
+            <label style={labelStyle}>Department</label>
             <input
               style={inputStyle}
-              type="email"
-              placeholder="johndoe@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              placeholder="Department"
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
             />
           </div>
         </div>
@@ -138,7 +156,7 @@ export default function EmployeeSettings() {
             onChange={(e) => setBio(e.target.value)}
             rows={3}
           />
-          <p style={{ fontSize: 11, color: "#5a6070", margin: "2px 0 0" }}>This will be displayed on your profile.</p>
+          <p style={{ fontSize: 11, color: "#5a6070", margin: "2px 0 0" }}>This are your basic informations.</p>
         </div>
 
         {/* Save Button */}

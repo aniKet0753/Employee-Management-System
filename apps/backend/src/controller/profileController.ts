@@ -1,10 +1,9 @@
 import type { Request, Response } from "express";
 import User from "../models/Users.js";
 import Employee from "../models/employee.js";
-import { stringify } from "querystring";
-
-export const getprofiledata = async (req:Request, res:Response)=>{
-  const email = req.body;
+import type { AuthRequest } from "../middleware/auth.js";
+export const getprofiledata = async (req:AuthRequest, res:Response)=>{
+  const email = req.user!;
   try{
     const responce= await Employee.findOne({email:email.email})
     if(!responce){
@@ -24,8 +23,9 @@ export const getprofiledata = async (req:Request, res:Response)=>{
   }
 }
 
-export const updateprofiledata = async (req:Request, res:Response)=>{
-    const { email, ...updatedata } = req.body;
+export const updateprofiledata = async (req:AuthRequest, res:Response)=>{
+    const { email } = req.user!;
+    const { ...updatedata } = req.body
   try{
     const updateEmployee = await Employee.findOneAndUpdate({email},updatedata, { new: true })
     res.status(200).json({

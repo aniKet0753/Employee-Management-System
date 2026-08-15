@@ -1,3 +1,4 @@
+
 export const DEPARTMENTS = ["Engineering", "Human Resources", "Marketing", "Sales", "Finance", "Operations", "IT Support", "Customer Success", "Product Management", "Design"];
 
 export const dummyAdminDashboardData = {
@@ -28,6 +29,7 @@ export const dummyProfileData = {
     lastName: "Doe",
     email: "johndoe@example.com",
     image: null,
+    department: "IT Support",
 };
 
 export const dummyEmployeeData = [

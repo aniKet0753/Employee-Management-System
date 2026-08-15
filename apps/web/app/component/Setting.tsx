@@ -22,9 +22,52 @@ export default function EmployeeSettings() {
   const [bio, setBio] = useState("");
   const [saved, setSaved] = useState(false);
 
-  function handleSave(){
-    return console.log("save butoon clicked");
+const handleSave = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.log("Token not found");
+      return;
+    }
+
+    const updatedData = {
+      firstName,
+      lastName,
+      phone,
+      position,
+      bio,
+    };
+
+    const response = await axios.put(
+      "http://localhost:3001/api/profile/update",
+      updatedData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const updatedProfile = response.data.data;
+
+    setdata(updatedProfile);
+    setFirstName(updatedProfile.firstName || "");
+    setLastName(updatedProfile.lastName || "");
+    setphone(updatedProfile.phone || "");
+    setPosition(updatedProfile.position || "");
+    setBio(updatedProfile.bio || "");
+
+    setSaved(true);
+
+    setTimeout(() => {
+      setSaved(false);
+    }, 2000);
+
+  } catch (error) {
+    console.log("Update error:", error);
   }
+};
 
 useEffect(()=>{
   const settings = async ()=>{

@@ -23,18 +23,36 @@ export const getprofiledata = async (req:AuthRequest, res:Response)=>{
   }
 }
 
-export const updateprofiledata = async (req:AuthRequest, res:Response)=>{
+export const updateprofiledata = async ( req: AuthRequest, res: Response) => {
+  try {
     const { email } = req.user!;
-    const { ...updatedata } = req.body
-  try{
-    const updateEmployee = await Employee.findOneAndUpdate({email},updatedata, { new: true })
-    res.status(200).json({
-      success:true,
-      data:updateEmployee
-    })
-  }catch(error){
-    res.status(505).json({
-      error
-    })
+    const updateEmployee = await Employee.findOneAndUpdate(
+      { email },
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!updateEmployee) {
+      return res.status(404).json({
+        success: false,
+        message: "Employee not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: updateEmployee,
+    });
+
+  } catch (error) {
+    console.log("UPDATE PROFILE ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : error,
+    });
   }
-}
+};

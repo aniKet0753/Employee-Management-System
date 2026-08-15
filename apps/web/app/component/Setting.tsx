@@ -6,7 +6,7 @@ type Profile = {
   _id: string;
   firstName: string;
   lastName: string;
-  department:string,
+  phone:number,
   bio:string,
   position:string,
   image: string | null;
@@ -17,7 +17,7 @@ export default function EmployeeSettings() {
   const [passwordModal, setPasswordModal] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [department, setDepartment] = useState("");
+  const [phone, setphone] = useState("");
   const [position, setPosition] = useState("");
   const [bio, setBio] = useState("");
   const [saved, setSaved] = useState(false);
@@ -42,7 +42,7 @@ useEffect(()=>{
     setdata(profile)
     setFirstName(profile.firstName || "")
     setLastName(profile.lastName || "")
-    setDepartment(profile.department || "")
+    setphone(profile.phone || "")
     setPosition(profile.position || "")
     setBio(profile.bio || "")
 
@@ -123,13 +123,13 @@ useEffect(()=>{
             />
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-            <label style={labelStyle}>Department</label>
+            <label style={labelStyle}>Phone Number</label>
             <input
               style={inputStyle}
               type="text"
-              placeholder="Department"
-              value={department}
-              onChange={(e) => setDepartment(e.target.value)}
+              placeholder="phone number"
+              value={phone}
+              onChange={(e) => setphone(e.target.value)}
             />
           </div>
         </div>

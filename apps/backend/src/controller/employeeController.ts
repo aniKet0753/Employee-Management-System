@@ -43,25 +43,50 @@ export const getEmployeees = async(req:AuthRequest,res:Response) => {
 
 // //create employee
 // //post:  api/employee
-export const createenmployee = async (req:AuthRequest, res:Response)=>{
-  try{
-      const employe= await Employee.create(req.body);
-      console.log(employe)
-      res.status(201).json({
-        success: true,
-        message:"Employee created sucessfully",
-        data: employe,
-      })
-  }catch(error){
-    res.status(500).json({
+export const createenmployee = async (req: AuthRequest,res: Response) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
+    // Create User
+    const userCreation = await User.create({
+      email: req.body.email,
+      password: hashedPassword,
+      role: req.body.role,
+    });
+
+    // Create Employee using User's _id
+    const employee = await Employee.create({
+      userId: userCreation._id,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phone: req.body.phone,
+      position: req.body.position,
+      basicSalary: req.body.basicSalary,
+      allowances: req.body.allowances,
+      deductions: req.body.deductions,
+      employmentStatus: req.body.employmentStatus,
+      joinDate: req.body.joinDate,
+      isDeleted: req.body.isDeleted,
+      bio: req.body.bio,
+      department: req.body.department,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Employee created successfully",
+      data: employee,
+      userCreated: userCreation,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
       success: false,
-      message:"not able to inser data"
-    })
+      message: "Not able to insert data",
+      error,
+    });
   }
-
-
-}
-
+};
 
 // //update employee
 // //pur: api/employee/:id

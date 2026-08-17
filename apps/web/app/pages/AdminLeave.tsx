@@ -1,28 +1,58 @@
 "use client";
-import { useState } from "react";
-import { dummyLeaveData, dummyEmployeeData } from "../assets/assets";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 type LeaveStatus = "PENDING" | "APPROVED" | "REJECTED";
 
+type Employee = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+};
+
+type ApplicationDetail = {
+  _id: string;
+  employeeId: Employee;
+  type: string;
+  startDate: string;
+  endDate: string;
+  reason: string;
+  status: LeaveStatus;
+};
+
 export default function AdminLeavePage() {
-  const [leaveData, setLeaveData] = useState(dummyLeaveData);
+  const [leaveData, setLeaveData] = useState<ApplicationDetail[]>([]);
+
+useEffect(()=>{
+  const getAllLeave = async()  =>{
+    const token = localStorage.getItem("token");
+    const responce = await axios.get("http://localhost:3001/api/leaveapplication",{
+      headers:{
+        Authorization:`Bearer ${token}`,
+      }
+    })
+    console.log("responce",responce.data)
+    setLeaveData(responce.data.applications)
+  }
+  getAllLeave()
+},[])
 
   // Look up an employee's full name by id
-  const getEmployeeName = (employeeId: string) => {
-    const emp = dummyEmployeeData.find((e) => e.id === employeeId);
-    console.log(emp)
-    return emp ? `${emp.firstName} ${emp.lastName}` : "Unknown";
-  };
+  // const getEmployeeName = (employeeId: ApplicationDetail) => {
+  //   const emp = employeeId.find((e) => e.id === employeeId);
+  //   console.log(emp)
+  //   return emp ? `${emp.firstName} ${emp.lastName}` : "Unknown";
+  // };
 
   const handleApprove = (id: string) => {
     setLeaveData((prev) =>
-      prev.map((l) => (l.id === id ? { ...l, status: "APPROVED" } : l))
+      prev.map((l) => (l._id === id ? { ...l, status: "APPROVED" } : l))
     );
   };
 
   const handleReject = (id: string) => {
     setLeaveData((prev) =>
-      prev.map((l) => (l.id === id ? { ...l, status: "REJECTED" } : l))
+      prev.map((l) => (l._id === id ? { ...l, status: "REJECTED" } : l))
     );
   };
 
@@ -60,9 +90,9 @@ export default function AdminLeavePage() {
         </thead>
         <tbody style={{fontFamily:"sans-serif"}}>
           {leaveData.map((leave) => (
-            <tr key={leave.id} style={{ borderTop: "1px solid #374151" }}>
+            <tr key={leave._id} style={{ borderTop: "1px solid #374151" }}>
               <td style={{ padding: "12px 8px" }}>
-                {getEmployeeName(leave.employeeId)}
+  {leave.employeeId.firstName} {leave.employeeId.lastName}
               </td>
               <td style={{ padding: "12px 8px" }}>{leave.type}</td>
               <td style={{ padding: "12px 8px" }}>
@@ -85,13 +115,13 @@ export default function AdminLeavePage() {
                 {leave.status === "PENDING" && (
                   <>
                     <button
-                      onClick={() => handleApprove(leave.id)}
+                      onClick={() => handleApprove(leave._id)}
                       style={{ marginRight: "8px", cursor: "pointer" }}
                     >
                       ✅
                     </button>
                     <button
-                      onClick={() => handleReject(leave.id)}
+                      onClick={() => handleReject(leave._id)}
                       style={{ cursor: "pointer", color: "#ef4444" }}
                     >
                       ❌

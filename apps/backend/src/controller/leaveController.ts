@@ -61,7 +61,7 @@ export const getleaveApplication = async (req: AuthRequest, res: Response)=>{
     leavedata
     })
   }else{
-  const applications = await LeaveApplication.find()
+  const applications = await LeaveApplication.find().populate("employeeId","firstName lastName")
   return res.status(200).json({ applications });
 }
 }

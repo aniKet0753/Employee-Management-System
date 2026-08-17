@@ -21,8 +21,8 @@ const app = express();
 app.use(cors({origin:"*"}))
 app.use(express.json());
 
-app.get("/",getEmployeees)
-app.post("/api/employee",createenmployee)
+app.get("/api/employee",middleware,getEmployeees)//belongs to admin
+app.post("/api/createemploye",middleware,createenmployee)//admon creation employee
 app.post("/user",createUser)
 // app.put("/api/employee/:id",updateemployee)
 // app.delete("/api/employee/:id",deleteEmployee)

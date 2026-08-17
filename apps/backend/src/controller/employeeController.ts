@@ -3,6 +3,7 @@ import Employee from "../models/employee.js"
 import User from "../models/Users.js"
 import mongoose from "mongoose"
 import bcrypt, { hash } from "bcrypt";
+import type { AuthRequest } from "../middleware/auth.js";
 
 export const createUser = async (req:Request, res:Response) => {
   try {
@@ -26,7 +27,8 @@ export const createUser = async (req:Request, res:Response) => {
 
 // //get employee
 // //get: api/employee
-export const getEmployeees = async(req:Request,res:Response) => {
+export const getEmployeees = async(req:AuthRequest,res:Response) => {
+
   try{
     const getemploye = await Employee.find().populate("userId");
     res.status(200).json(getemploye)
@@ -41,7 +43,7 @@ export const getEmployeees = async(req:Request,res:Response) => {
 
 // //create employee
 // //post:  api/employee
-export const createenmployee = async (req:Request, res:Response)=>{
+export const createenmployee = async (req:AuthRequest, res:Response)=>{
   try{
       const employe= await Employee.create(req.body);
       console.log(employe)

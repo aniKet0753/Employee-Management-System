@@ -243,7 +243,6 @@ export default function LoginAsEmployee() {
                 <label style={{ fontSize: "0.78rem", color: "#888", fontWeight: 500, letterSpacing: "0.03em" }}>
                   PASSWORD
                 </label>
-                <a href="/forgot-password" className="forgot-link">Forgot password?</a>
               </div>
               <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
                 <input

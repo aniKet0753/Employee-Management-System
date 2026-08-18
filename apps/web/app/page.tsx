@@ -25,7 +25,7 @@ export default function LandingPage() {
         <Navbar onSigninClick={login} onSignupClick={SignUP} onLogoutClick={LogOut}/>
         </div>
       {/* Main content */}
-      <div style={{minHeight:"1000vh", backgroundColor:"black"}}>
+      <div style={{minHeight:"100vh", backgroundColor:"black"}}>
         <MainContent />
       </div>
     </div>

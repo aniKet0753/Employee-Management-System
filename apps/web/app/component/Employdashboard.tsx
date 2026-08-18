@@ -29,20 +29,20 @@ export default function EmployeeDashboard ({data,}:EmployeeDashboardProps){
       value: data.currentMonthAttendance,
       title: "Days Present",
       subtitle: "This month",
-      path: "/attendance",
+      path: "/employe/attendance",
     },
     {
       icon: <FileTextIcon  color="white"/>,
       value: data.PendingLeaves,
       title: "Pending Leaves",
       subtitle: "Awaiting approval",
-      path: "/leaves",
+      path: "/employe/leaves",
     },{
        icon: <DollarSignIcon  color="white"/>,
       value: data.latestPayslip ? `${data.latestPayslip?.toLocaleString()}` : "N/A",
       title: "Latest Payslip",
       subtitle: "Most Recent Payment",
-      path:"/payslip",
+      path:"/employe/payslip",
     }
   ]
   return (

@@ -1,16 +1,45 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {dummyPayslipData} from "../assets/assets"
 import { dummyEmployeeData } from "../assets/assets";
 import { Download } from "lucide-react";
+import axios from "axios";
+
+
+type employeedata ={
+  _id:string,
+  firstName:string,
+  lastName:string
+}
+type Payslip = {
+  _id: string;
+  employeeId: employeedata;
+  month: string;
+  year: number;
+  basicSalary: number;
+  allowances: number;
+  deductions: number;
+  netSalary: number;
+};
+
 
 export default function AdminPaySlip(){
-  const [name, setname ]= useState(dummyPayslipData);
+  const [payslips, setPayslips ]= useState<Payslip[]>([]);
+  const [userdata, setuserdata]= useState(null)
 
-  const extractName = (employeeId: string)=>{
-    const empName = dummyEmployeeData.find((e)=> e.id === employeeId)
-    return empName ? `${empName.firstName} ${empName.lastName}` : "Unknown";
-  }
+  useEffect(()=>{
+    const getPaySlip = async ()=>{
+      const token = localStorage.getItem("token");
+      const responce = await axios.get("http://localhost:3001/api/payslip",{
+        headers:{
+          Authorization: `Bearer ${token}`,
+        }
+      })
+      setPayslips(responce.data.payslips)
+    }
+    getPaySlip()
+  },[])
+
   const formateDate = (data: string)=>{
     return new Date(data).toLocaleDateString("en-US",{
       month: "short",
@@ -19,7 +48,7 @@ export default function AdminPaySlip(){
     })
   }
 
-  const formateperiod = (month: number , year: number)=>{
+  const formateperiod = (year:number,month:number)=>{
     return new Date(year , month -1 ).toLocaleString("en-US",{
       month : "long",
       year: "numeric"
@@ -42,10 +71,10 @@ export default function AdminPaySlip(){
           </tr>
         </thead>
         <tbody>
-          {dummyPayslipData.map((slip)=>(
-            <tr key={slip.id} style={{borderBottom:"1px solid rgba(255,255,255,0.06)",fontFamily:"sans-serif"}}>
-              <td style={{padding:"14px 16px", fontWeight:600}}>{extractName(slip.employeeId)}</td>
-              <td style={{padding:"14px 16px", color:"#d1d5db"}}>{formateperiod(slip.month, slip.year)}</td>
+          {payslips.map((slip)=>(
+            <tr key={slip._id} style={{borderBottom:"1px solid rgba(255,255,255,0.06)",fontFamily:"sans-serif"}}>
+              <td style={{padding:"14px 16px", fontWeight:600}}>{slip.employeeId.firstName} {slip.employeeId.lastName}</td>
+              <td style={{padding:"14px 16px", color:"#d1d5db"}}>{formateperiod(slip.year, slip.month)}</td>
               <td style={{padding:"14px 16px", textAlign:"right", color:"#9ca3af"}}>${slip.basicSalary.toLocaleString("en-US")}</td>
               <td style={{padding:"14px 16px", textAlign:"right", fontWeight:600}}>${slip.netSalary.toLocaleString("en-US")}</td>
               <td style={{padding:"14px 16px", textAlign:"right"}}>

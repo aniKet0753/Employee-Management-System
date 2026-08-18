@@ -25,10 +25,15 @@ export const generatePaySlip = async (req: Request, res: Response) => {
       allowances: Number(allowances || 0),
       deductions: Number(deductions || 0),
       netSalary: NetSalary,
+      
     });
-    return res
-      .status(201)
-      .json({ message: "Pay slip generated successfully", payslip });
+    
+   await payslip.populate("employeeId", "firstName lastName");
+
+    return res.status(201).json({
+      message: "Pay slip generated successfully",
+      payslip,
+    });
   } catch (error) {
     return res
       .status(500)
@@ -45,7 +50,7 @@ export const getPaySlip = async (req: AuthRequest, res: Response) => {
       return res.status(400).json({ message: "Email is required" });
     }
     if(isAdmin){
-    const payslips = await PaySlip.find()
+    const payslips = await PaySlip.find().populate("employeeId","firstName lastName")
     return res.status(200).json({ payslips });
     }else{
       const employee = await Employee.findOne({ email });

@@ -33,7 +33,7 @@ export default function AdminDashboard() {
           return console.log("error : token is required");
         }
         const responce = await axios.get(
-          "http://localhost:3001/api/dashboard",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

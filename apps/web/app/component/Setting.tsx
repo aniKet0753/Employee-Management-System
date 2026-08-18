@@ -40,7 +40,7 @@ const handleSave = async () => {
     };
 
     const response = await axios.put(
-      "http://localhost:3001/api/profile/update",
+      `${process.env.NEXT_PUBLIC_API_URL}/api/profile/update`,
       updatedData,
       {
         headers: {
@@ -76,7 +76,7 @@ useEffect(()=>{
      if(!token){
       return console.log("token is not gicen")
     }
-    const responce = await axios.get("http://localhost:3001/api/users",{
+    const responce = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users`,{
       headers:{
         Authorization:`Bearer ${token}`
       }

@@ -41,7 +41,7 @@ export default function EmployeeDashboard() {
         }
 
         const response = await axios.get(
-          "http://localhost:3001/api/dashboard",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -57,9 +57,9 @@ export default function EmployeeDashboard() {
         console.error("Dashboard error:", error);
 
         setError(
-          error.response?.data?.message ||
-          "Failed to load dashboard"
-        );
+  error.response?.data?.message ||
+  "Unable to load your dashboard."
+);
 
       } finally {
         setLoading(false);
@@ -90,7 +90,16 @@ export default function EmployeeDashboard() {
       color: "red",
     }}
   >
-    {error}
+    {error && (
+  <div className="error-container">
+    <p>{error}</p>
+    <small>
+      Please ask an admin to add you as an employee.
+      For demo purposes, you can also sign up as an admin
+      & add Yourself.
+    </small>
+  </div>
+)}
   </p>
 ) : data ? (
   <EmployeeDashboardComponent data={data} />

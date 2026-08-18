@@ -33,7 +33,7 @@ useEffect(()=>{
           setLoading(false);
           return;
   }
-    const responce = await axios.get("http://localhost:3001/api/leaveapplication",{
+    const responce = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/leaveapplication`,{
       headers:{
         Authorization:`Bearer ${token}`,
       }

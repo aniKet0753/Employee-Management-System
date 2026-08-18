@@ -31,7 +31,7 @@ export default function Attandance() {
         }
 
         const response = await axios.get(
-         "http://localhost:3001/api/attendance",
+         `${process.env.NEXT_PUBLIC_API_URL}/api/attendance`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

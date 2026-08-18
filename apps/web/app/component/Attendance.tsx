@@ -78,7 +78,7 @@ const checkinFunction = async () => {
     }
 
     const response = await axios.post(
-      "http://localhost:3001/api/attendance",
+      `${process.env.NEXT_PUBLIC_API_URL}/api/attendance`,
       {},
       {
         headers: {

@@ -30,7 +30,7 @@ export default function SignUp() {
 
   const signupfunc = async ()=>{
     try{
-    const responce = await axios.post("http://localhost:3001/user",{
+    const responce = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user`,{
       email:form.email,
       password:form.password,
       role:form.role

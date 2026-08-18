@@ -27,6 +27,13 @@ type Employee = {
   bio: string;
 };
 
+type CreateEmployeeResponse = {
+  success: boolean;
+  message: string;
+  data: Employee;
+  userCreated: User;
+};
+
 export default function Employeepage() {
   const [data, setData] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(false);
@@ -44,7 +51,7 @@ export default function Employeepage() {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get<Employee[]>(
-          "http://localhost:3001/api/employee",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/employee`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -68,8 +75,8 @@ export default function Employeepage() {
   const handleAddEmployee = async (form: EmployeeFormData) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post<Employee>(
-        "http://localhost:3001/api/createemploye",
+      const response = await axios.post<CreateEmployeeResponse>(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/createemploye`,
         form,
         {
           headers: {
@@ -77,7 +84,7 @@ export default function Employeepage() {
           },
         }
       );
-      setData((prev) => [...prev, response.data]);
+      setData((prev) => [...prev, response.data.data]);
       setShowAddModal(false);
     } catch (err) {
       console.error("Failed to add employee:", err);

@@ -30,7 +30,7 @@ export default function AdminPaySlip(){
   useEffect(()=>{
     const getPaySlip = async ()=>{
       const token = localStorage.getItem("token");
-      const responce = await axios.get("http://localhost:3001/api/payslip",{
+      const responce = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/payslip`,{
         headers:{
           Authorization: `Bearer ${token}`,
         }
@@ -48,13 +48,13 @@ export default function AdminPaySlip(){
     })
   }
 
-  const formateperiod = (year:number,month:number)=>{
-    return new Date(year , month -1 ).toLocaleString("en-US",{
+  const formateperiod = (year:number, month:string | number)=>{
+    const monthIndex = Number(month) - 1;
+    return new Date(year, monthIndex).toLocaleString("en-US",{
       month : "long",
       year: "numeric"
     })
   }
-//new Date(2026, 0) this represent as january so thats y i did month -1
 
   return <div style={{padding: "24px", color: "white" , width:"100%"}}>
     <h2 style={{fontSize:"22px", fontWeight:700, margin:"0 0 4px 0"}}>Payslips</h2>

@@ -19,7 +19,7 @@ export default function LoginAsEmployee() {
   const employeedashboard = async ()=> {
 
     try{
-    const responce = await axios.post("http://localhost:3001/login",{
+    const responce = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`,{
       email:employeeId,
       password:password,
       role_type:"EMPLOYEE"

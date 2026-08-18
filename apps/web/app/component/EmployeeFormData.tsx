@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
-import { DEPARTMENTS } from "../assets/assets";
 
 const EMPLOYMENT_STATUSES = ["ACTIVE", "INACTIVE", "ON_LEAVE", "TERMINATED"];
+export const DEPARTMENTS = ["Engineering", "Human Resources", "Marketing", "Sales", "Finance", "Operations", "IT Support", "Customer Success", "Product Management", "Design"];
+
 
 const inputStyle = {
   width: "100%",
@@ -40,12 +41,16 @@ export type EmployeeFormData = {
   employmentStatus: string;
   joinDate: string;
   bio: string;
+  password: string;
+  role: string;
 };
 
 const initialFormData: EmployeeFormData = {
   firstName: "",
   lastName: "",
   email: "",
+  password: "",
+  role: "",
   phone: "",
   department: "",
   position: "",
@@ -290,7 +295,27 @@ export default function EmployeeForm({
               onChange={handleChange}
             />
           </div>
-
+           <div style={fieldWrapper}>
+            <label style={labelStyle}>Role</label>
+            <input
+              style={inputStyle}
+              name="role"
+              value={form.role}
+              onChange={handleChange}
+              placeholder="Employee"
+            />
+          </div>
+           <div style={fieldWrapper}>
+            <label style={labelStyle}>Set Employee Password</label>
+            <input
+              style={inputStyle}
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              placeholder="****"
+              required
+            />
+          </div>
           <div className="employee-form-full" style={fieldWrapper}>
             <label style={labelStyle}>Bio</label>
             <textarea

@@ -27,7 +27,7 @@ export default function Payslips() {
     if(!token){
       console.log("this is an eroor token require");
     }
-    const responce = await axios.get("http://localhost:3001/api/payslip",{
+    const responce = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/payslip`,{
       headers:{
         Authorization: `Bearer ${token}`,
       }

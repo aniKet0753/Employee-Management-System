@@ -17,7 +17,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   const adminloginfunc = async () =>{
     try{
-    const responce = await axios.post("http://localhost:3001/login",{
+    const responce = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`,{
       email:email,
       password:password,
       role_type:"ADMIN"

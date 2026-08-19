@@ -32,7 +32,7 @@ export default function AdminDashboard() {
         if (!token) {
           return console.log("error : token is required");
         }
-        const responce = await axios.get(
+        const responce = await axios.get<admindata>(
           `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`,
           {
             headers: {

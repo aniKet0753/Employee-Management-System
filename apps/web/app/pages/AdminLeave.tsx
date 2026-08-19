@@ -19,6 +19,9 @@ type ApplicationDetail = {
   reason: string;
   status: LeaveStatus;
 };
+type LeaveApplicationResponse = {
+  applications: ApplicationDetail[];
+};
 
 export default function AdminLeavePage() {
   const [leaveData, setLeaveData] = useState<ApplicationDetail[]>([]);
@@ -26,7 +29,7 @@ export default function AdminLeavePage() {
 useEffect(()=>{
   const getAllLeave = async()  =>{
     const token = localStorage.getItem("token");
-    const responce = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/leaveapplication`,{
+    const responce = await axios.get<LeaveApplicationResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/leaveapplication`,{
       headers:{
         Authorization:`Bearer ${token}`,
       }

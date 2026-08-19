@@ -10,8 +10,9 @@ type AttendanceRecord = {
   checkIn: string;
   checkOut?: string;
   workingHours: number;
-  dayType: string;
+  type: string;
   status: string;
+  dayType:string
 };
 
 type AttendanceProps = {
@@ -77,7 +78,7 @@ const checkinFunction = async () => {
       return;
     }
 
-    const response = await axios.post(
+    const response = await axios.post<AttendanceRecord>(
       `${process.env.NEXT_PUBLIC_API_URL}/api/attendance`,
       {},
       {

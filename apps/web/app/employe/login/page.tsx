@@ -14,12 +14,14 @@ export default function LoginAsEmployee() {
     e.preventDefault()
     employeedashboard()
   }
-
+type LoginResponse = {
+  token: string;
+};
 
   const employeedashboard = async ()=> {
 
     try{
-    const responce = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`,{
+    const responce = await axios.post<LoginResponse>(`${process.env.NEXT_PUBLIC_API_URL}/login`,{
       email:employeeId,
       password:password,
       role_type:"EMPLOYEE"

@@ -5,6 +5,22 @@ import { useEffect, useState } from "react";
 import {dummyAttendanceData} from "../../assets/assets"
 import axios from "axios";
 
+type AttendanceRecord = {
+   _id: string;
+  employeeId: string;
+  data: string;
+  checkIn: string;
+  checkOut?: string;
+  workingHours: number;
+  type: string;
+  status: string;
+  dayType:string
+};
+
+type AttendanceProps = {
+  history: AttendanceRecord[];
+};
+
 export default function Attandance() {
   const [loading , setloading] = useState(true);
   const [isDeleted, setDelete] = useState(false);
@@ -30,7 +46,7 @@ export default function Attandance() {
           return;
         }
 
-        const response = await axios.get(
+        const response = await axios.get<AttendanceProps>(
          `${process.env.NEXT_PUBLIC_API_URL}/api/attendance`,
           {
             headers: {

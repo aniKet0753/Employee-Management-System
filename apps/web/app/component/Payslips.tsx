@@ -4,6 +4,11 @@ import { Download } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+type EmployeeInfo = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+};
 type Payslip = {
   _id: string;
   employeeId: string;
@@ -14,6 +19,9 @@ type Payslip = {
   deductions: number;
   netSalary: number;
   createdAt: string;
+};
+type PayslipResponse = {
+  payslips: Payslip[];
 };
 
 export default function Payslips() {
@@ -27,7 +35,7 @@ export default function Payslips() {
     if(!token){
       console.log("this is an eroor token require");
     }
-    const responce = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/payslip`,{
+    const responce = await axios.get<PayslipResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/payslip`,{
       headers:{
         Authorization: `Bearer ${token}`,
       }

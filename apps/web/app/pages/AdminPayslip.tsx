@@ -21,6 +21,9 @@ type Payslip = {
   deductions: number;
   netSalary: number;
 };
+type playResponceType = {
+  payslips : Payslip[]
+}
 
 
 export default function AdminPaySlip(){
@@ -30,7 +33,7 @@ export default function AdminPaySlip(){
   useEffect(()=>{
     const getPaySlip = async ()=>{
       const token = localStorage.getItem("token");
-      const responce = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/payslip`,{
+      const responce = await axios.get<playResponceType>(`${process.env.NEXT_PUBLIC_API_URL}/api/payslip`,{
         headers:{
           Authorization: `Bearer ${token}`,
         }

@@ -14,10 +14,12 @@ const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();//preventiong page relode to send login data
   await adminloginfunc();
 };
-
+type LoginResponse = {
+  token: string;
+};
   const adminloginfunc = async () =>{
     try{
-    const responce = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`,{
+    const responce = await axios.post<LoginResponse>(`${process.env.NEXT_PUBLIC_API_URL}/login`,{
       email:email,
       password:password,
       role_type:"ADMIN"

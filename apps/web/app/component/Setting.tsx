@@ -4,12 +4,26 @@ import { useEffect, useState } from "react";
 
 type Profile = {
   _id: string;
+  image: string;
   firstName: string;
   lastName: string;
-  phone:number,
-  bio:string,
-  position:string,
-  image: string | null;
+  phone: string;
+  position: string;
+  bio: string;
+};
+
+type UpdateProfile = {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  position: string;
+  bio: string;
+};
+
+type UpdateProfileResponse = {
+  success: boolean;
+  message: string;
+  data: Profile;
 };
 
 export default function EmployeeSettings() {
@@ -31,7 +45,7 @@ const handleSave = async () => {
       return;
     }
 
-    const updatedData = {
+    const updatedData:UpdateProfile = {
       firstName,
       lastName,
       phone,
@@ -39,7 +53,7 @@ const handleSave = async () => {
       bio,
     };
 
-    const response = await axios.put(
+    const response = await axios.put<UpdateProfileResponse>(
       `${process.env.NEXT_PUBLIC_API_URL}/api/profile/update`,
       updatedData,
       {
@@ -74,9 +88,9 @@ useEffect(()=>{
     try{ 
       const token = localStorage.getItem("token");
      if(!token){
-      return console.log("token is not gicen")
+      return console.log("token is not given")
     }
-    const responce = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users`,{
+    const responce = await axios.get<UpdateProfileResponse>(`${process.env.NEXT_PUBLIC_API_URL}/api/users`,{
       headers:{
         Authorization:`Bearer ${token}`
       }

@@ -40,7 +40,7 @@ export default function EmployeeDashboard() {
           return;
         }
 
-        const response = await axios.get(
+        const response = await axios.get<EmployeeDashboardData>(
           `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`,
           {
             headers: {

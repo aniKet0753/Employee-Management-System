@@ -41,7 +41,7 @@ export default function AdminDashboard() {
           },
         );
         console.log("responce data:", responce.data);
-        setdata(responce.data.data);
+        setdata(responce.data);
       } catch (error) {
         console.log("error", error);
       }

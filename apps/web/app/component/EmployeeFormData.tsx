@@ -50,7 +50,7 @@ const initialFormData: EmployeeFormData = {
   lastName: "",
   email: "",
   password: "",
-  role: "",
+  role: "EMPLOYEE",
   phone: "",
   department: "",
   position: "",
@@ -302,7 +302,7 @@ export default function EmployeeForm({
               name="role"
               value={form.role}
               onChange={handleChange}
-              placeholder="Employee"
+              placeholder="EMPLOYEE (Use Capital Letter)"
             />
           </div>
            <div style={fieldWrapper}>

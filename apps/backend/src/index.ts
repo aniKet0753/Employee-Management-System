@@ -14,6 +14,7 @@ import { clockInOut, getAttandance } from "./controller/attandenceController.js"
 import { getleaveApplication, leaveApplication, updateLeaveStatus } from "./controller/leaveController.js";
 import { generatePaySlip, getPaySlip, getPaySlipById } from "./controller/paySlipController.js";
 import {getDashboard } from "./controller/dashboardController.js"
+import { connectProducer } from "./kafka/producer.js"
 // import { updateemployee } from "./controller/employeeController.js"
 
 
@@ -43,6 +44,7 @@ app.get("/api/dashboard",middleware,getDashboard)
 const PORT = process.env.PORT;
 
 await connectDB()
+await connectProducer();
 app.listen(PORT, () =>{
   console.log(`Backend server running on ${PORT}`);
 })

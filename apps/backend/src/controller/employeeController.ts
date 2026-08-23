@@ -4,6 +4,7 @@ import User from "../models/Users.js"
 import mongoose from "mongoose"
 import bcrypt, { hash } from "bcrypt";
 import type { AuthRequest } from "../middleware/auth.js";
+import { sendEmployeeEmail } from "../kafka/producer.js";
 
 export const createUser = async (req:Request, res:Response) => {
   try {
@@ -70,7 +71,13 @@ export const createenmployee = async (req: AuthRequest,res: Response) => {
       bio: req.body.bio,
       department: req.body.department,
     });
-
+    await sendEmployeeEmail({
+      id: employee._id.toString(),
+      email: employee.email,
+      firstName: employee.firstName,
+      lastName: employee.lastName,
+      role: userCreation.role,
+    });
     return res.status(201).json({
       success: true,
       message: "Employee created successfully",

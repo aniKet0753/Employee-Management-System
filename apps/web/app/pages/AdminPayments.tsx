@@ -72,63 +72,106 @@ export default function AdminPayment() {
 
   // Runs after the admin confirms — this is the part that actually
   // creates the order and opens Razorpay checkout
-  const startPayment = async (emp: Employee) => {
-    setPayingId(emp._id);
-    setError(null);
-    try {
-      const token = localStorage.getItem("token");
-      const netSalary = emp.basicSalary + emp.allowances - emp.deductions;
+const startPayment = async (emp: Employee) => {
+  setPayingId(emp._id);
+  setError(null);
 
-      const orderRes = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/payment`,
-        { amount: netSalary, employeeId: emp._id },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+  try {
+    const token = localStorage.getItem("token");
 
-      const { order, key_id } = orderRes.data;
+    const netSalary =
+      emp.basicSalary +
+      emp.allowances -
+      emp.deductions;
 
-      const scriptLoaded = await loadRazorpayScript();
-      if (!scriptLoaded) {
-        setError("Failed to load payment gateway. Check your connection.");
-        return;
+    // 1. Create order through YOUR backend
+    const orderRes = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/payment`,
+      {
+        amount: netSalary,
+        employeeId: emp._id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
- const options = {
-    key: process.env.RAZORPAY_KEY_ID,
+    );
 
-    amount: order.amount,
+    // 2. Get order + public Razorpay key
+    const { order, key_id } = orderRes.data;
 
-    currency: order.currency,
+    console.log("Razorpay order:", order);
+    console.log("Razorpay key:", key_id);
 
-    name: "Employee Management",
+    // 3. Load Razorpay checkout script
+    const scriptLoaded = await loadRazorpayScript();
 
-    description: "Premium Employee Management",
-
-    order_id: order.id,
-
-    handler: async function (response: any) {
-      console.log("Payment successful");
-
-      console.log(response);
-    },
-
-    theme: {
-      color: "#3399cc",
-    },
-  };
-
-  const razorpay = new window.Razorpay(options);
-
-  razorpay.open();
-      const razorpayInstance = new window.Razorpay(options);
-      razorpayInstance.open();
-    } catch (err) {
-      console.error("Payment initiation failed:", err);
-      setError("Failed to start payment. Please try again.");
-    } finally {
-      setPayingId(null);
-      setConfirmEmp(null);
+    if (!scriptLoaded) {
+      setError("Failed to load payment gateway.");
+      return;
     }
-  };
+
+    // 4. Razorpay options
+    const options = {
+      key: key_id,
+
+      // order.amount is already in paise
+      amount: order.amount,
+
+      currency: order.currency,
+
+      name: "Employee Management",
+
+      description: `Salary payment for ${emp.firstName} ${emp.lastName}`,
+
+      order_id: order.id,
+
+      prefill: {
+        name: `${emp.firstName} ${emp.lastName}`,
+        email: emp.email,
+        contact: emp.phone,
+      },
+
+      handler: function (response: any) {
+        console.log("Payment successful!");
+        console.log("Payment response:", response);
+
+        alert(
+          `Payment successful for ${emp.firstName} ${emp.lastName}`
+        );
+      },
+
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    // 5. Create Razorpay ONCE
+    const razorpay = new window.Razorpay(options);
+
+    razorpay.on("payment.failed", (response: any) => {
+      console.error("Payment failed:", response);
+
+      setError(
+        `Payment failed for ${emp.firstName} ${emp.lastName}`
+      );
+    });
+
+    // 6. Open Razorpay ONCE
+    razorpay.open();
+
+  } catch (err) {
+    console.error("Payment initiation failed:", err);
+
+    setError(
+      "Failed to start payment. Please try again."
+    );
+  } finally {
+    setPayingId(null);
+    setConfirmEmp(null);
+  }
+};
 
   const filteredEmployees = data.filter((emp) => {
     const matchesSearch =

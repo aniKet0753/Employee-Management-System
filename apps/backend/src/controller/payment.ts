@@ -18,7 +18,7 @@ export const razorpayment = async (req: AuthRequest, res:Response)=>{
     });
 
     const order = await razorpay.orders.create({
-      amount:amount,
+      amount:Math.round(amount * 100),
       currency:"INR",
       receipt: `receipt_${Date.now()}`
     })
@@ -37,6 +37,7 @@ export const razorpayment = async (req: AuthRequest, res:Response)=>{
         amount:order.amount,
         currency:order.currency
       },
+      key_id: process.env.RAZORPAY_KEY_ID,
       razorpayPaymentId: paymnet._id
     })
   }catch(error){

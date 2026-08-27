@@ -20,6 +20,11 @@ const adminNavItems = [
     href: "/admin/leave",
 
   },
+    {
+    key: "Payment",
+    label: "payment",
+    href: "/admin/payments",
+  },
   {
     key: "payslips",
     label: "Payslips",

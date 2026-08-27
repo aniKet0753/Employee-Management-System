@@ -9,6 +9,7 @@ import { createenmployee } from "./controller/employeeController.js"
 import {createUser } from "./controller/employeeController.js"
 import { changepassword, login } from "./controller/authController.js";
 import { middleware } from "./middleware/auth.js";
+import { razorpayment } from "./controller/payment.js"
 import { getprofiledata, updateprofiledata } from "./controller/profileController.js";
 import { clockInOut, getAttandance } from "./controller/attandenceController.js";
 import { getleaveApplication, leaveApplication, updateLeaveStatus } from "./controller/leaveController.js";
@@ -22,6 +23,7 @@ app.use(express.json());
 app.get("/api/employee",middleware,getEmployeees)//belongs to admin
 app.post("/api/createemploye",middleware,createenmployee)//admon creation employee
 app.post("/user",createUser)
+app.post("/api/payment",middleware,razorpayment)
 // app.put("/api/employee/:id",updateemployee)
 // app.delete("/api/employee/:id",deleteEmployee)
 app.post("/login",login)

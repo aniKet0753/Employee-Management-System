@@ -28,7 +28,16 @@ declare global {
     Razorpay: any;
   }
 }
-
+type PaymentResponse = {
+  success: boolean;
+  order: {
+    id: string;
+    amount: number;
+    currency: string;
+  };
+  key_id: string;
+  razorpayPaymentId: string;
+};
 export default function AdminPayment() {
   const [data, setData] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(false);
@@ -85,7 +94,7 @@ const startPayment = async (emp: Employee) => {
       emp.deductions;
 
     // 1. Create order through YOUR backend
-    const orderRes = await axios.post(
+    const orderRes = await axios.post<PaymentResponse>(
       `${process.env.NEXT_PUBLIC_API_URL}/api/payment`,
       {
         amount: netSalary,

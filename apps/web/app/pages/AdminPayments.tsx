@@ -163,7 +163,7 @@ const startPayment = async (emp: Employee) => {
       console.error("Payment failed:", response);
 
       setError(
-        `Payment failed for ${emp.firstName} ${emp.lastName}`
+        `Payment failed for ${emp.firstName} ${emp.lastName} on first time please check ypur bank statement`
       );
     });
 

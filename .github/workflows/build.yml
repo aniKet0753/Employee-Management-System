@@ -1,0 +1,35 @@
+name: Employee management CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  production-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: SettingUp Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: SetUp pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Verify pnpm
+        run: pnpm --version
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build my project
+        run: pnpm build
